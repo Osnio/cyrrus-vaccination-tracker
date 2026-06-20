@@ -14,7 +14,7 @@ import { ChildCard } from "../shared/component/child-card/child-card";
   standalone: true,
   imports: [CommonModule,
     RouterLink,
-    StatusBadge,
+    StatusBadge,  
     ProgressBar, ChildCard],
   templateUrl: './children.html',
   styleUrl: './children.css',
