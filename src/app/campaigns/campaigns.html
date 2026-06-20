@@ -1,0 +1,48 @@
+<main class="max-w-7xl mx-auto px-4 py-10">
+  <!-- Header -->
+  <div class="mb-10">
+    <p class="text-sm font-medium tracking-widest text-(--primary)">CYRRUS HEALTH</p>
+    <h1 class="text-4xl font-bold text-(--dark) mt-2">Campanhas de Vacinação</h1>
+    <p class="text-gray-600 mt-2">Acompanhe as oportunidades de imunização disponíveis para sua família.</p>
+  </div>
+
+  <!-- Banner de Destaque -->
+  <div class="highlight-banner mb-12">
+    <div class="highlight-tag"><i class="bi bi-megaphone text-(--accent)"></i> EM DESTAQUE</div>
+    <h2 class="highlight-title">Campanha Nacional de Vacinação contra a Gripe 2026</h2>
+    <p class="highlight-desc">Imunização gratuita contra os subtipos circulantes do vírus Influenza, com foco em crianças de 6 meses a 6 anos.</p>
+    
+    <div class="highlight-meta">
+      <div class="meta-item">
+        <i class="bi bi-people"></i>
+        <span>Crianças de 6 meses a 6 anos</span>
+      </div>
+      <div class="meta-item">
+        <i class="bi bi-calendar3"></i>
+        <span>10 jun → 09 ago</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters mb-10 cursor-pointer">
+    <button class="cursor-pointer"
+            *ngFor="let filter of ['Todas','Ativas', 'Futuras', 'Encerradas']"
+            (click)="setFilter(filter)"
+            [class.active]="activeFilter === filter"
+            class="filter-btn">
+      {{ filter }}
+      <span class="count" *ngIf="filter !== 'Todas'">
+        ({{ getCount(filter) }})
+      </span>
+    </button>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <app-campaigns-card 
+      *ngFor="let campaign of filteredCampaigns" 
+      [campaign]="campaign">
+    </app-campaigns-card>
+  </div>
+</main>

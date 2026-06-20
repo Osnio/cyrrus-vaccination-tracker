@@ -1,0 +1,30 @@
+<div class="campaign-card">
+  <div class="card-header">
+    <i class="bi bi-megaphone"></i>
+    
+    <!-- Badge Dinâmico -->
+    <div *ngIf="campaign.status" 
+         class="status-badge"
+         [ngClass]="{
+           'ativa': campaign.status === 'Ativa',
+           'futura': campaign.status === 'Futura',
+           'encerrada': campaign.status === 'Encerrada'
+         }">
+      {{ campaign.status.toUpperCase() }}
+    </div>
+  </div>
+
+  <h3 class="campaign-title">{{ campaign.titulo }}</h3>
+  <p class="campaign-desc">{{ campaign.descricao }}</p>
+
+  <div class="campaign-footer">
+    <div class="meta-item">
+      <i class="bi bi-people"></i>
+      <span>{{ campaign.publico }}</span>
+    </div>
+    <div class="meta-item">
+      <i class="bi bi-calendar3"></i>
+      <span>{{ campaign.periodo }}</span>
+    </div>
+  </div>
+</div>

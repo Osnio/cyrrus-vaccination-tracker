@@ -1,0 +1,68 @@
+.highlight-banner {
+  background: var(--accent);
+  color: var(--dark);
+  border-radius: 28px;
+  padding: 32px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-tag {
+  background: var(--secondary);
+  color: var(--dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.highlight-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.highlight-desc {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.highlight-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #e5e0d8;
+  background: white;
+}
+
+.filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
