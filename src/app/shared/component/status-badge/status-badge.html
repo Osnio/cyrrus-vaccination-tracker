@@ -1,0 +1,11 @@
+<span
+  [class]="getStatusClass()"
+  class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold"
+>
+  <span
+    [class]="getDotClass()"
+    class="h-1.5 w-1.5 rounded-full"
+  ></span>
+
+  {{ getLabel() }}
+</span>

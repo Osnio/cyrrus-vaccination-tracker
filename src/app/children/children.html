@@ -1,0 +1,46 @@
+<a 
+  [routerLink]="['/children', child.id]"
+  class="group surface-card p-5 flex flex-col gap-4 hover:-translate-y-0.5 hover:shadow-glow transition-all duration-300">
+
+  <div class="flex items-center gap-3.5">
+    <div class="h-14 w-14 rounded-2xl bg-muted overflow-hidden shrink-0 ring-2 ring-background shadow-soft">
+      <img [src]="child.photo" [alt]="child.name" class="h-full w-full object-cover">
+    </div>
+    <div class="min-w-0 flex-1">
+      <p class="font-semibold text-[15px] truncate text-(--color-dark)">{{ child.name }}</p>
+      <p class="text-xs text-muted-foreground">{{ child.ageLabel }}</p>
+    </div>
+    <i class="bi bi-chevron-right" class="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors"></i>
+  </div>
+
+  <app-status-badge [status]="child.vaccinationStatus"></app-status-badge>
+
+  <div>
+    <div class="flex justify-between text-[11px] mb-1.5">
+      <span class="text-muted-foreground">Calendário vacinal</span>
+      <span class="font-bold text-(--color-dark)">{{ child.progressPercentage }}%</span>
+    </div>
+    <app-progress-bar 
+      [value]="child.progressPercentage" 
+      [tone]="getProgressTone()">
+    </app-progress-bar>
+  </div>
+
+  <div class="grid grid-cols-3 gap-2 pt-2 border-t border-border">
+    <app-child-card 
+      label="Aplicadas" 
+      [value]="child.appliedCount" 
+      tone="primary">
+    </app-child-card>
+    <app-child-card 
+      label="Pendentes" 
+      [value]="child.pendingCount" 
+      tone="secondary">
+    </app-child-card>
+    <app-child-card 
+      label="Atrasadas" 
+      [value]="child.overdueCount" 
+      tone="accent">
+    </app-child-card>
+  </div>
+</a>

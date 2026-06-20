@@ -1,0 +1,61 @@
+<app-app-layout title="Olá, Família Martins 👋" subtitle="Aqui está o panorama completo da jornada vacinal das suas crianças.">
+
+  <!-- Headline hero -->
+  <div class="surface-card overflow-hidden mb-6">
+    <div class="grid lg:grid-cols-[1.4fr_1fr]">
+      <div class="p-6 lg:p-8 relative">
+        <div class="absolute inset-0 opacity-90 z-0" 
+             style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)"></div>
+        <div class="relative z-10 text-[oklch(0.22_0.02_60)]">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white/40 backdrop-blur px-3 py-1 text-[11px] font-bold uppercase tracking-wider">
+            <i class="bi bi-stars" class="h-3 w-3"></i> Situação Vacinal da Família
+          </span>
+          <h2 class="mt-4 text-2xl lg:text-3xl font-extrabold leading-tight text-balance" 
+              style="color: var(--color-dark)">
+            {{ headline.message }}
+          </h2>
+          <div class="mt-5">
+            <app-progress-bar [value]="metrics.totalProgress" tone="accent"></app-progress-bar>
+            <p class="mt-2 text-sm font-semibold" style="color: var(--color-dark)">
+              {{ metrics.applied }} de {{ metrics.applied + metrics.pending + metrics.overdue }} vacinas registradas
+            </p>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <a routerLink="/children" 
+               class="inline-flex items-center gap-2 rounded-xl bg-(--color-dark) text-white px-4 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity">
+              Ver crianças <i class="bi bi-baby" class="h-4 w-4"></i>
+            </a>
+            <a routerLink="/reports" 
+               class="inline-flex items-center gap-2 rounded-xl bg-white/80 backdrop-blur text-(--color-dark) px-4 py-2.5 text-sm font-semibold hover:bg-white transition-colors">
+              Ver relatórios <i class="bi bi-trending-up" class="h-4 w-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="p-6 lg:p-8 grid place-items-center bg-card">
+        <div class="w-full h-48 lg:h-56">
+          <!-- Placeholder RadialBarChart -->
+          <div class="w-full h-full flex items-center justify-center border border-dashed border-muted rounded-2xl">
+            <div class="text-center">
+              <p class="text-4xl font-extrabold text-(--color-dark)">{{ metrics.totalProgress }}%</p>
+              <p class="text-xs text-muted-foreground">Calendário vacinal</p>
+              <small class="text-[10px] text-muted-foreground block mt-2">(Radial Chart Placeholder)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="grid gap-4 grid-cols-2 lg:grid-cols-5 mb-8">
+    <app-stat-card icon="lucide-baby" label="Crianças" [value]="metrics.children" tone="primary" hint="Cadastradas"></app-stat-card>
+    <app-stat-card icon="lucide-check-circle" label="Aplicadas" [value]="metrics.applied" tone="primary" hint="Histórico geral" [trend]="{ dir: 'up', value: '12%' }"></app-stat-card>
+    <app-stat-card icon="lucide-calendar-clock" label="Pendentes" [value]="metrics.pending" tone="secondary" hint="No prazo"></app-stat-card>
+    <app-stat-card icon="lucide-alert-triangle" label="Atrasadas" [value]="metrics.overdue" tone="accent" hint="Requer ação"></app-stat-card>
+    <app-stat-card icon="lucide-megaphone" label="Campanhas" [value]="metrics.activeCampaigns" tone="dark" hint="Ativas agora"></app-stat-card>
+  </div>
+
+  <!-- Restante do template (Upcoming, Pie, Alerts, Recent, Campaigns, Children) -->
+  <!-- ... (vou continuar no próximo passo se você confirmar) -->
+</app-app-layout>

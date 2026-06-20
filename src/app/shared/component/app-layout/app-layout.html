@@ -1,0 +1,74 @@
+<div class="min-h-screen bg-background text-foreground">
+  <div class="mx-auto flex w-full max-w-360 gap-0 lg:gap-6 lg:p-6">
+    <main class="flex-1 min-w-0">
+      <!-- Topbar -->
+      <!-- <header class="sticky top-0 z-20 mx-0 lg:rounded-2xl bg-background/85 backdrop-blur border-b lg:border border-border px-4 lg:px-6 py-3.5">
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:gap-6">
+          <div class="flex min-w-0 items-center gap-3">
+            <div class="lg:hidden"><app-brand [compact]="true"></app-brand></div>
+            
+            <div class="hidden md:flex items-center gap-2 rounded-xl bg-muted px-3 py-2 w-full max-w-md">
+              <i class="bi bi-search"></i>  
+              <input 
+                type="text"
+                placeholder="Buscar crianças, vacinas, campanhas..."
+                class="border-0 bg-transparent p-0 h-auto shadow-none focus-visible:ring-0 placeholder:text-muted-foreground/70 flex-1">
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button class="relative inline-flex h-9 w-9 items-center justify-center rounded-xl bg-muted hover:bg-muted/70 transition-colors">
+              <i class="bi bi-bell"></i> 
+              <span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-accent"></span>
+            </button>
+            
+            <div class="hidden sm:flex items-center gap-2.5 pl-2">
+              <div class="text-right">
+                <p class="text-xs font-semibold leading-tight">Família Martins</p>
+                <p class="text-[10px] text-muted-foreground leading-tight">5 crianças</p>
+              </div>
+              <div class="h-9 w-9 rounded-xl gradient-primary grid place-items-center text-xs font-bold text-primary-foreground">
+                FM
+              </div>
+            </div>
+          </div>
+        </div>
+      </header> -->
+
+      <!-- Page header -->
+      <div class="px-4 lg:px-6 pt-6 lg:pt-8">
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 flex-wrap">
+          <div class="min-w-0">
+            <p class="text-xs font-medium uppercase tracking-[0.18em] text-primary">Cyrrus Health</p>
+            <h1 class="mt-1.5 text-2xl sm:text-3xl font-extrabold text-balance">{{ title }}</h1>
+            @if (subtitle) {
+              <p class="mt-1.5 text-sm text-muted-foreground max-w-2xl">{{ subtitle }}</p>
+            }
+          </div>
+          @if (actions) {
+            <div class="shrink-0 flex gap-2">{{ actions }}</div>
+          }
+        </div>
+      </div>
+
+      <!-- Page Content -->
+      <div class="px-4 lg:px-6 py-6 lg:py-8">
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Mobile bottom nav -->
+      <nav class="lg:hidden fixed bottom-3 left-3 right-3 z-30 surface-card flex justify-around py-1.5 px-2">
+        @for (item of nav; track item.to) {
+          <a 
+            [routerLink]="item.to"
+            routerLinkActive="text-primary"
+            class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold text-muted-foreground">
+            <i [class]="item.icon"></i>
+            {{ item.label }}
+          </a>
+        }
+      </nav>
+      <div class="lg:hidden h-20"></div>
+    </main>
+  </div>
+</div>
