@@ -1,167 +1,144 @@
-/* Layout Root */
+/* ====================== LAYOUT ROOT ====================== */
+.layout-root {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ====================== SIDEBAR (Desktop only) ====================== */
+.sidebar {
+  width: 260px;
+  background: var(--dark);
+  color: white;
+  flex-shrink: 0;
+  display: none; 
+  flex-direction: column;
+  padding: 1.25rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;           /* ← Mudança principal */
+  z-index: 100;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  overflow-y: auto;        /* ← Evita que o conteúdo transborde */
+}
+
+.sidebar-logo {
+  font-size: 1.75rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 0.5px;
+}
+
+/* Mostrar sidebar apenas em telas grandes */
+@media (min-width: 1024px) {
+  .sidebar {
+    display: flex;
+  }
+}
+
+
+/* ====================== MAIN AREA ====================== */
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--background);
+}
+
+/* ====================== HEADER ====================== */
+.header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* ====================== BOTTOM NAV - MOBILE ====================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--dark);
+  border-top: 1px solid rgba(253, 167, 105, 0.3);
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  display: none;
+}
+
+.bottom-nav .flex {
+  justify-content: space-around;
+}
+
+.bottom-nav a {
+  color: #a8b5a0;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 8px;
+  border-radius: 16px;
+  min-width: 60px;
+}
+
+.bottom-nav a i {
+  font-size: 1.65rem;
+  transition: all 0.25s ease;
+}
+
+.bottom-nav a span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+
+/* Estado Ativo */
+.bottom-nav a.active {
+  color: #ffffff;
+  background: rgba(171, 194, 112, 0.22);
+  transform: translateY(-3px);
+}
+
+.bottom-nav a.active i {
+  transform: scale(1.18);
+  color: var(--primary);
+}
+
+/* Efeito de toque */
+.bottom-nav a:active {
+  transform: scale(0.92);
+}
+
+/* Mostrar Bottom Nav apenas em mobile */
+@media (max-width: 1023px) {
+  .bottom-nav {
+    display: flex;
+  }
+}
+
+/* Espaço para a bottom nav não sobrepor o conteúdo */
+main {
+  padding-bottom: 92px;
+}
+
+@media (min-width: 1024px) {
+  main {
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* ====================== OUTROS AJUSTES GERAIS ====================== */
 .layout-root {
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-}
-
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 100vh;               
-  background: #1A2035;
-  color: #fff;
-  z-index: 1200;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;            
-  transition: transform 0.3s cubic-bezier(.4,0,.2,1);
-  scrollbar-width: none;       
-  -ms-overflow-style: none;    
-}
-
-.sidebar::-webkit-scrollbar {
-  display: none; 
-}
-
-.sidebar.closed {
-  transform: translateX(-100%);
-}
-.sidebar-logo {
-  padding: 1.5rem 0 1rem 0;
-  letter-spacing: 1px;
-}
-
-/* Novo container com scroll */
-.sidebar .nav-container {
-  flex: 1;                     
-  overflow-y: auto;            
-  padding: 0 0 1.5rem 0;       
-}
-
-/* Opcional: estilizar a scrollbar (se quiser mostrar) */
-.sidebar .nav-container::-webkit-scrollbar {
-  width: 3px;
-}
-
-.sidebar .nav-container::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
-}
-
-.sidebar .nav-container::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.25);
-  border-radius: 10px;
-}
-
-.sidebar .nav-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.4);
-}
-
-/* Main Area */
-.main-area {
-  margin-left: 220px;
-  width: calc(100vw - 220px);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  transition: margin-left 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1);
-}
-
-/* Header */
-.header {
-  position: fixed;
-  top: 0;
-  left: 220px;
-  width: calc(100vw - 220px);
-  height: 56px;
-  z-index: 1100;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: left 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1);
-}
-
-/* Content Area */
-.content-area {
-  margin-top: 65px;
-  height: calc(100vh - 56px);
-  overflow-y: auto;
-  background: none;
-  padding: 0;
-}
-
-/* Sidebar closed (toggle) */
-.sidebar.closed ~ .main-area,
-.sidebar.closed ~ .main-area .header {
-  margin-left: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-}
-
-/* Sidebar Backdrop for Mobile */
-.sidebar-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.4);
-  z-index: 1199;
-}
-
-/* Responsive */
-@media (max-width: 991.98px) {
-  .sidebar {
-    width: 220px;
-    transform: translateX(-100%);
-    left: 0;
-  }
-  .sidebar:not(.closed) {
-    transform: translateX(0);
-  }
-  .main-area {
-    margin-left: 0;
-    width: 100vw;
-  }
-  .header {
-    left: 0;
-    width: 100vw;
-  }
-}
-
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(33,37,41,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-.header .sidebar-toggle-btn {
-  font-size: 1.5rem;
-  color: #1A2035;
-  background: none;
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
-.header .d-flex.align-items-center.gap-3 {
-  margin-right: 1.5rem;
-}
-
-.header .dropdown-menu-end {
-  right: 0.5rem !important;
-  left: auto !important;
-}
-
-.login-page .main-area,
-.login-page .content-area {
-  margin: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  max-width: 100vw !important;
-  max-height: 100vh !important;
-  padding: 0 !important;
-  background: #f8f9fa;
 }

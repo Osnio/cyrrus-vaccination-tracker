@@ -11,8 +11,8 @@ import { Brand } from './brand/brand';
     CommonModule,
     RouterLink,
     RouterLinkActive,
-   
-  ],
+    Brand
+],
   templateUrl: './app-layout.html',
   styleUrl: './app-layout.css',
 })

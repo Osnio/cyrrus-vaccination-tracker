@@ -36,7 +36,7 @@ export class App implements OnInit {
   notifications: Notification[] = [];
 
   nav = [
-    { to: '/dashboard', label: 'dashboard', icon: 'bi bi-grid' },
+    { to: '/dashboard', label: 'Início', icon: 'bi bi-grid' },
     { to: '/children', label: 'Crianças', icon: 'bi bi-emoji-smile' },
     { to: '/vaccines', label: 'Vacinas', icon: 'bi bi-eyedropper' },
     { to: '/campaigns', label: 'Campanhas', icon: 'bi bi-megaphone' },

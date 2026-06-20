@@ -1,0 +1,136 @@
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f8d7a3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.info p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.chevron {
+  font-size: 22px;
+  color: #bbb;
+  font-weight: bold;
+}
+
+/* STATUS */
+.status {
+  display: inline-flex;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.success { background: #e8f5e9; color: #2e7d32; }
+.warning { background: #fff3e0; color: #ef6c00; }
+.danger  { background: #ffebee; color: #d32f2f; }
+
+/* PROGRESS */
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: #f1f1f1;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.8s ease;
+  width: 0%; /* valor inicial seguro */
+}
+
+/* Cores usando suas variáveis globais */
+.success .fill { background: var(--primary); }
+.warning .fill { background: var(--accent); }
+.danger .fill  { background: #f44336; }
+
+/* STATS */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 8px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 12px;
+}
+
+.stats div {
+  flex: 1;
+}
+
+.stats strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+}
+
+.stats span {
+  font-size: 11px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}

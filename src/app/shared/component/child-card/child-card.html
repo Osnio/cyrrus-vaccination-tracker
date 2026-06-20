@@ -1,1 +1,53 @@
-<p>child-card works!</p>
+<div class="card">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="profile">
+      <div class="avatar">
+        <span>{{ child.name.charAt(0) }}</span>
+      </div>
+
+      <div class="info">
+        <h3>{{ child.name }}</h3>
+        <p>{{ child.age }}</p>
+      </div>
+    </div>
+
+    <span class="chevron">›</span>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status" [ngClass]="getStatusClass()">
+    {{ child.status }}
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-header">
+    <span>Calendário vacinal</span>
+    <strong>{{ child.progress }}%</strong>
+  </div>
+
+  <div class="progress-bar">
+    <div 
+      class="fill" 
+      [ngClass]="getProgressBarClass()"
+      [style.width]="child.progress + '%'">
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div>
+      <strong>{{ child.applied }}</strong>
+      <span>APLICADAS</span>
+    </div>
+    <div>
+      <strong>{{ child.pending }}</strong>
+      <span>PENDENTES</span>
+    </div>
+    <div>
+      <strong>{{ child.overdue }}</strong>
+      <span>ATRASADAS</span>
+    </div>
+  </div>
+</div>

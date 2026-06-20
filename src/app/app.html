@@ -1,119 +1,90 @@
-<div class="layout-root">
+<div class="layout-root bg-slate-600">
 
-  <!-- @if(!isLoginPage) {
+  <!-- SIDEBAR - APENAS DESKTOP -->
+<aside class="sidebar hidden lg:flex w-64 shrink-0 flex-col text-white sticky top-0 h-screen">
+  <div class="sidebar-logo mb-8 text-2xl font-bold text-center pt-6">
+    Cyrrus <span class="text-(--secondary)">Vacinação</span>
+  </div>
 
-    <aside class="sidebar" [class.closed]="!sidebarOpen">
-      <div class="sidebar-logo mb-4 fw-bold fs-4 text-center">Cyrrus <br>Vacinação Infantil</div>
-      <section class="nav-container">
-        
-        <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item mb-2">
-            <a routerLink="/dashboard" routerLinkActive="active" class="nav-link text-white">Painel de Controlo</a>
-          </li>
+    <nav class="flex flex-col gap-1 mt-4">
+      @for (item of nav; track item.to) {
+        <a 
+          [routerLink]="item.to"
+          routerLinkActive="bg-orange-500 text-white shadow-md"
+          [routerLinkActiveOptions]="{exact: item.to === '/'}"
+          class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all hover:bg-slate-800">
+          <i [class]="item.icon" class="text-xl"></i>
+          {{ item.label }}
+        </a>
+      }
+    </nav>
 
-          <li class="nav-item mb-2">
-            <a routerLink="/wallet/approvals" routerLinkActive="active" class="nav-link text-white">Carregamentos Cash In</a>
-          </li>
-              
-          <li class="nav-item mb-2">
-            <a routerLink="/cashout/approvals" routerLinkActive="active" class="nav-link text-white">Transferências Cash-Out</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a routerLink="/comissions" routerLinkActive="active" class="nav-link text-white">Comissões</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a routerLink="/contributions" routerLinkActive="active" class="nav-link text-white">Contribuições</a>
-          </li>     
+    <div class="mt-auto rounded-2xl p-4 bg-linear-to-br from-orange-500 to-amber-500 text-white text-sm">
+      <i class="bi bi-lightbulb"></i>
+      <p class="mt-2 font-semibold">Dica Cyrrus</p>
+      <p class="text-xs opacity-90 mt-1">
+        Configure lembretes e receba alertas antes do vencimento.
+      </p>
+    </div>
+  </aside>
 
-          <li class="nav-item mb-2">
-            <a routerLink="transfer-qipay" routerLinkActive="active" class="nav-link text-white">Transferências QiPay</a>
-          </li>
+  <!-- MAIN AREA -->
+  <div class="main-area flex-1 flex flex-col min-h-screen">
 
-          <li class="nav-item mb-2">
-            <a routerLink="/financial-requests" routerLinkActive="active" class="nav-link text-white">Solicitar Dinheiro</a>
-          </li>
-
-
-        </ul>
-      </section>
-    </aside>
-  } -->
-  
-  <aside class="hidden lg:flex w-64 shrink-0 flex-col surface-card p-5 sticky top-6 h-[calc(100vh-3rem)]">
-      <!-- <app-brand></app-brand> -->
-      
-      <nav class="mt-8 flex flex-col gap-1">
-        @for (item of nav; track item.to) {
-          <a 
-            [routerLink]="item.to"
-            routerLinkActive="bg-primary text-primary-foreground shadow-soft"
-            [routerLinkActiveOptions]="{exact: item.to === '/'}"
-            class="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors text-muted-foreground hover:bg-muted hover:text-foreground">
-            <i [class]="item.icon"></i>
-            {{ item.label }}
-          </a>
-        }
-      </nav>
-
-      <div class="mt-auto rounded-2xl p-4 gradient-warm text-[oklch(0.25_0.03_55)]">
-        <i class="bi bi-activity"></i>
-        <p class="mt-2 text-sm font-semibold">Dica Cyrrus</p>
-        <p class="mt-1 text-xs leading-relaxed opacity-90">
-          Configure lembretes inteligentes e receba alertas antes do vencimento.
-        </p>
-      </div>
-    </aside>
-
-  <div class="main-area">
-
+    <!-- HEADER -->
     @if(!isLoginPage) {
-      <header class="header d-flex align-items-center justify-content-between px-3 py-2 bg-white shadow-sm">
-        <aside class="sticky top-0 z-20 mx-0 lg:rounded-2xl bg-background/85 backdrop-blur border-b lg:border border-border px-4 lg:px-6 py-3.5">
-          <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 lg:gap-6">
-            <div class="flex min-w-0 items-center gap-3">
-              <div class="lg:hidden"><app-brand [compact]="true"></app-brand></div>
-              
-              <div class="hidden md:flex items-center gap-2 rounded-xl bg-muted px-3 py-2 w-full max-w-md">
-                <i class="bi bi-search"></i>  
-                <input 
-                  type="text"
-                  placeholder="Buscar crianças, vacinas, campanhas..."
-                  class="border-0 bg-transparent p-0 h-auto shadow-none focus-visible:ring-0 placeholder:text-muted-foreground/70 flex-1">
-              </div>
+      <header class="header bg-white border-b sticky top-0 z-50">
+        <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="lg:hidden">
+              <app-brand [compact]="true"></app-brand>
             </div>
+            
+            <div class="hidden md:flex items-center gap-2 bg-muted rounded-xl px-4 py-2 w-full max-w-md">
+              <i class="bi bi-search"></i>
+              <input type="text" placeholder="Buscar crianças, vacinas..." 
+                     class="bg-transparent border-0 focus:outline-none flex-1 text-sm">
+            </div>
+          </div>
 
-            <div class="flex items-center gap-2 shrink-0">
-              <button class="relative inline-flex h-9 w-9 items-center justify-center rounded-xl bg-muted hover:bg-muted/70 transition-colors">
-                <i class="bi bi-bell"></i> 
-                <span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-accent"></span>
-              </button>
-              
-              <div class="hidden sm:flex items-center gap-2.5 pl-2">
-                <div class="text-right">
-                  <p class="text-xs font-semibold leading-tight">Família Martins</p>
-                  <p class="text-[10px] text-muted-foreground leading-tight">5 crianças</p>
-                </div>
-                <div class="h-9 w-9 rounded-xl gradient-primary grid place-items-center text-xs font-bold text-primary-foreground">
-                  FM
-                </div>
+          <div class="flex items-center gap-3">
+            <button class="relative w-9 h-9 flex items-center justify-center rounded-xl hover:bg-muted">
+              <i class="bi bi-bell text-xl"></i>
+              <span class="absolute top-1 right-1 h-3 w-3 bg-red-500 rounded-full"></span>
+            </button>
+
+            <div class="hidden sm:flex items-center gap-3">
+              <div class="text-right">
+                <p class="font-semibold text-sm">Família Martins</p>
+                <p class="text-xs text-muted-foreground">5 crianças</p>
+              </div>
+              <div class="w-9 h-9 bg-linear-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center text-white font-bold">
+                FM
               </div>
             </div>
           </div>
-        </aside>
+        </div>
       </header>
     }
 
-    
-    <main class="content-area">
+    <!-- CONTEÚDO -->
+    <main class="flex-1 overflow-auto p-4 lg:p-6 pb-20 lg:pb-6">
       <router-outlet></router-outlet>
     </main>
+
+    <!-- BOTTOM NAV - MOBILE -->
+    <nav class="bottom-nav lg:hidden fixed bottom-0 left-0 right-0 bg-[#1A2035] text-white border-t border-orange-500/20 shadow-2xl z-50">
+      <div class="flex items-center justify-around py-3 px-2 max-w-lg mx-auto">
+        @for (item of nav; track item.to) {
+          <a 
+            [routerLink]="item.to"
+            routerLinkActive="active"
+            class="flex flex-col items-center justify-center gap-1 py-2 px-4 rounded-2xl transition-all duration-200 flex-1">
+            <i [class]="item.icon + ' text-2xl'"></i>
+            <span class="text-xs font-medium mt-1">{{ item.label }}</span>
+          </a>
+        }
+      </div>
+    </nav>
   </div>
-  
-  @if(sidebarOpen && isMobile) {
-    <div class="sidebar-backdrop" (click)="sidebarOpen = false"></div>
-  }
-
-     
-
 </div>
-
