@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VaccineCard } from "../shared/component/vaccine-card/vaccine-card";
+import { PageHeader } from "../shared/component/page-header/page-header";
 
 // Interface local compatível com o VaccineCard
 export interface Vaccine {
@@ -16,7 +17,7 @@ export interface Vaccine {
 @Component({
   selector: 'app-vaccines',
   standalone: true,          // ← Adicione isso
-  imports: [CommonModule, FormsModule, VaccineCard],
+  imports: [CommonModule, FormsModule, VaccineCard, PageHeader],
   templateUrl: './vaccines.html',
   styleUrl: './vaccines.css',
 })

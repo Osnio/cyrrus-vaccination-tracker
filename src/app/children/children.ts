@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChildCard } from "../shared/component/child-card/child-card";
+import { PageHeader } from "../shared/component/page-header/page-header";
 
 export interface Child {
   id: string;
@@ -17,7 +18,7 @@ export interface Child {
 @Component({
   selector: 'app-children',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChildCard],
+  imports: [CommonModule, FormsModule, ChildCard, PageHeader],
   templateUrl: './children.html',
   styleUrl: './children.css',
 })

@@ -1,0 +1,34 @@
+<div class="child-card">
+  <div class="avatar">
+    <span>{{ child.nome.charAt(0) }}</span>
+  </div>
+
+  <h4 class="name">{{ child.nome }}</h4>
+  <p class="age">{{ child.idade }}</p>
+
+  <!-- Progresso Circular -->
+  <div class="progress-container">
+    <svg class="progress-ring" viewBox="0 0 42 42">
+      <circle cx="21" cy="21" r="15" fill="none" stroke="#e5e7eb" stroke-width="5"/>
+      <circle cx="21" cy="21" r="15" fill="none" 
+              [attr.stroke]="child.porcentagem === 100 ? 'var(--primary)' : 'var(--accent)'"
+              stroke-width="5"
+              [attr.stroke-dasharray]="child.porcentagem + ', 100'"
+              stroke-linecap="round"/>
+    </svg>
+    <div class="progress-text">
+      <span>{{ child.porcentagem }}%</span>
+    </div>
+  </div>
+
+  <div class="status-badge" 
+       [ngClass]="{
+         'em-dia': child.status === 'Em',
+         'proxima': child.status === 'Próxima',
+         'atraso': child.status === 'Vacina'
+       }">
+    {{ child.status }}
+  </div>
+
+  <p class="detalhe">{{ child.detalhe }}</p>
+</div>

@@ -1,0 +1,11 @@
+<div class="metric-card">
+  <div class="icon-wrapper" [style.background-color]="metric.color + '10'">
+    <i [class]="metric.icon"></i>
+  </div>
+  
+  <div class="content">
+    <p class="title">{{ metric.title }}</p>
+    <h3 class="value">{{ metric.value }}</h3>
+    <p class="subtitle">{{ metric.subtitle }}</p>
+  </div>
+</div>

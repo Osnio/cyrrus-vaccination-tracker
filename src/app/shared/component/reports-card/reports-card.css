@@ -1,0 +1,53 @@
+.metric-card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  display: grid;
+  gap: 20px;
+  border: 1px solid #f0e9e0;
+  transition: transform 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+}
+
+.icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-wrapper i {
+  font-size: 28px;
+}
+
+/* .content {
+  flex: 1;
+} */
+
+.title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8c7f6f;
+  margin-bottom: 4px;
+}
+
+.value {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1;
+  margin: 8px 0;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #6b5f52;
+}

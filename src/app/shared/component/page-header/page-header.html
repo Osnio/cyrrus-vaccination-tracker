@@ -1,0 +1,12 @@
+<div class="mb-8">
+  <p *ngIf="showBrand" 
+     class="text-sm font-medium tracking-widest text-(--primary)">
+    CYRRUS HEALTH
+  </p>
+  
+  <div class="flex items-center gap-3 mt-1">
+    <h1 class="text-4xl font-bold text-(--dark)">{{ title }}</h1>
+    <i *ngIf="icon" [class]="icon" class="text-3xl text-(--accent)"></i>
+  </div>
+  <p class="text-(--text-light) mt-1 text-lg">{{ subtitle }}</p>
+</div>
