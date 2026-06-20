@@ -1,0 +1,10 @@
+button.active {
+  background-color: var(--primary) !important;
+  color: white !important;
+  border: none;
+}
+
+button:not(.active) {
+  background-color: #f8f4ed;
+  color: var(--dark);
+}

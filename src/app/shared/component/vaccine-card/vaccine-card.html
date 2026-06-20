@@ -1,0 +1,35 @@
+<div class="vaccine-card">
+  <!-- Header -->
+  <div class="card-header">
+    <div class="icon-container">
+      <i class="bi bi-eyedropper text-primary"></i>
+    </div>
+    
+    <div class="info">
+      <h3>{{ vaccine.nome }}</h3>
+      <p class="periodo">{{ vaccine.periodo }}</p>
+    </div>
+
+    <div *ngIf="vaccine.isCampanha" class="campaign-badge">
+      CAMPANHA
+    </div>
+  </div>
+
+  <!-- Body -->
+  <p class="descricao">{{ vaccine.descricao }}</p>
+
+  <!-- Footer -->
+  <div class="card-footer">
+    <div class="doses">
+      <span class="label">DOSES</span>
+      <span class="number">{{ vaccine.doses }}</span>
+    </div>
+
+    <div class="beneficios">
+      <div *ngFor="let beneficio of vaccine.beneficios" class="beneficio-item">
+        <i class="bi bi-check-circle"></i>
+        <span>{{ beneficio }}</span>
+      </div>
+    </div>
+  </div>
+</div>
