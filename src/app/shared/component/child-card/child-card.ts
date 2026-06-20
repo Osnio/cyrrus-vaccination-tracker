@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { RouterModule } from '@angular/router';
 
 export type VaccinationStatus =
   | 'Em dia'
@@ -21,7 +21,7 @@ export interface Child {
 @Component({
   selector: 'app-child-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './child-card.html',
   styleUrl: './child-card.css',
 })

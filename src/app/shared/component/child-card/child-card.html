@@ -1,4 +1,4 @@
-<div class="card">
+<a [routerLink]="['/children', child.id]" class="block hover:scale-[1.02] transition-transform duration-200">  <div class="card">
 
   <!-- HEADER -->
   <div class="header">
@@ -16,38 +16,39 @@
     <span class="chevron">›</span>
   </div>
 
-  <!-- STATUS -->
-  <div class="status" [ngClass]="getStatusClass()">
-    {{ child.status }}
-  </div>
+    <!-- STATUS -->
+    <div class="status" [ngClass]="getStatusClass()">
+      {{ child.status }}
+    </div>
 
-  <!-- PROGRESS -->
-  <div class="progress-header">
-    <span>Calendário vacinal</span>
-    <strong>{{ child.progress }}%</strong>
-  </div>
+    <!-- PROGRESS -->
+    <div class="progress-header">
+      <span>Calendário vacinal</span>
+      <strong>{{ child.progress }}%</strong>
+    </div>
 
-  <div class="progress-bar">
-    <div 
-      class="fill" 
-      [ngClass]="getProgressBarClass()"
-      [style.width]="child.progress + '%'">
+    <div class="progress-bar">
+      <div 
+        class="fill" 
+        [ngClass]="getProgressBarClass()"
+        [style.width]="child.progress + '%'">
+      </div>
     </div>
-  </div>
 
-  <!-- STATS -->
-  <div class="stats">
-    <div>
-      <strong>{{ child.applied }}</strong>
-      <span>APLICADAS</span>
-    </div>
-    <div>
-      <strong>{{ child.pending }}</strong>
-      <span>PENDENTES</span>
-    </div>
-    <div>
-      <strong>{{ child.overdue }}</strong>
-      <span>ATRASADAS</span>
+    <!-- STATS -->
+    <div class="stats">
+      <div>
+        <strong>{{ child.applied }}</strong>
+        <span>APLICADAS</span>
+      </div>
+      <div>
+        <strong>{{ child.pending }}</strong>
+        <span>PENDENTES</span>
+      </div>
+      <div>
+        <strong>{{ child.overdue }}</strong>
+        <span>ATRASADAS</span>
+      </div>
     </div>
   </div>
-</div>
+</a>
