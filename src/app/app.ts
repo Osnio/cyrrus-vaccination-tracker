@@ -1,24 +1,17 @@
 import { Component, signal, HostListener, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-// import { Router, RouterOutlet } from '@angular/router';
 import { VaccinationService } from './services/vaccination.service';
 
-// import { Component,  } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet, Router } from '@angular/router';
-// import { FormBuilder } from '@angular/forms';
-// import { NotificationToastComponent } from './components/notification-toast/notification-toast.component';
+
 import { NgIf } from '@angular/common';
-import { Brand } from "./shared/component/app-layout/brand/brand";
-// import { NotificationComponent } from "./notification/notification.component";
-// import { Notification } from './notification/notification.component';
-// import { WalletService } from './services/wallet.service';
 
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, Brand],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -53,8 +46,6 @@ export class App implements OnInit {
   ngOnInit() {
     this.setSidebarState(window.innerWidth);
     this.isMobile = window.innerWidth < 992;
-
-    // this.loadVerificationNotifications();
   }
   
 
@@ -81,32 +72,6 @@ export class App implements OnInit {
     return this.router.url === '/login';
   }
 
-  // --------------------------------
-  // loadVerificationNotifications() {
-  //   this.vaccinationService.getVerifications().subscribe(res => {
-
-  //     const readIds = this.getReadNotifications();
-
-  //     const verificationNotifications: Notification[] = res.items.map((item: any) => {
-
-  //       const storeName = item.seller?.businessInfo?.storeName || 'Empresa';
-
-  //       return {
-  //         id: item.id,
-  //         type: 'verification',
-  //         title: 'Solicitação de Verificação',
-  //         message: `A empresa ${storeName} solicitou que a loja seja verificada pela BayQi.`,
-  //         time: this.formatTime(item.createdAt),
-  //         read: readIds.includes(item.id),
-  //         link: `/companie/${item.sellerId}`
-  //       };
-
-  //     });
-
-  //     this.notifications = verificationNotifications;
-
-  //   });
-  // }
 
 
 
@@ -126,22 +91,6 @@ export class App implements OnInit {
     return `Há ${days} dias`;
   }
 
-  // openNotifications(transaction: any) {
-  //   this.selectedNotifications = transaction;
-  //   this.sidebarVisible = true;
-
-  //   const readIds = this.notifications.map(n => n.id);
-
-  //   this.notifications.forEach(n => n.read = true);
-
-  //   this.saveReadNotifications(readIds);
-
-  //   setTimeout(() => {
-  //     this.showSidebar = true;
-  //   }, 10);
-  // }
-
-
   closeNotifications() {
     this.showSidebar = false;    // inicia animação de desaparecer
     this.selectedNotifications = null;
@@ -151,25 +100,6 @@ export class App implements OnInit {
     }, 300);
   }
 
-  // toggleNotifications() {
-  //   if (this.showSidebar) {
-  //     this.closeNotifications();
-  //   } else {
-  //     this.openNotifications(null);
-  //   }
-  // }
 
-  // get notificationCount(): number {
-  //   return this.notifications.filter(n => !n.read).length;
-  // }
-
-  // getReadNotifications(): string[] {
-  //   const stored = localStorage.getItem('readNotifications');
-  //   return stored ? JSON.parse(stored) : [];
-  // }
-  
-  // saveReadNotifications(ids: string[]) {
-  //   localStorage.setItem('readNotifications', JSON.stringify(ids));
-  // }
   
 }

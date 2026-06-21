@@ -2,17 +2,22 @@
 
   <!-- SIDEBAR - APENAS DESKTOP -->
   <aside class="sidebar hidden lg:flex w-64 shrink-0 flex-col text-white sticky top-0 h-screen">
-    <div class="sidebar-logo mb-8 text-2xl font-bold text-center pt-6">
-      Cyrrus <span class="text-(--secondary)">Vacinação</span>
+    <div class="sidebar-logo text-2xl flex font-bold text-center items-center -6">
+
+      <i class="bi bi-shield-plus text-2xl text-primary"></i> 
+      <aside>
+        <p>Cyrrus</p> 
+        <span class=" text-[12px] text-(--secondary)">Vacinação Infantil</span>
+      </aside>
     </div>
 
     <nav class="flex flex-col gap-1 mt-4">
       @for (item of nav; track item.to) {
         <a 
           [routerLink]="item.to"
-          routerLinkActive="bg-orange-500 text-white shadow-md"
+          routerLinkActive="bg-(--accent) text-white shadow-md"
           [routerLinkActiveOptions]="{exact: item.to === '/'}"
-          class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all hover:bg-slate-800">
+          class="group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all hover:bg-(--primary)">
           <i [class]="item.icon" class="text-xl"></i>
           {{ item.label }}
         </a>
@@ -30,15 +35,9 @@
 
   <!-- MAIN AREA -->
   <div class="main-area flex-1 flex flex-col min-h-screen">
-
-
     <header class="bg-white  top-0 z-50 sticky mx-0  bg-background/85 backdrop-blur  px-4 lg:px-6 py-3.5">
       <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="lg:hidden">
-            <app-brand [compact]="true"></app-brand>
-          </div>
-          
           <div class="hidden md:flex items-center gap-2 bg-muted rounded-xl px-4 py-2 w-full max-w-md">
             <i class="bi bi-search"></i>
             <input type="text" placeholder="Buscar crianças, vacinas..." 
