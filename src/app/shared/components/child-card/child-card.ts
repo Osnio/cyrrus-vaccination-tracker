@@ -3,21 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Child, VaccinationStatus } from '../../models/child.model';
 
-// export type VaccinationStatus =
-//   | 'Em dia'
-//   | 'Próxima vacinação'
-//   | 'Vacina atrasada';
-
-// export interface Child {
-//   id: string;
-//   name: string;
-//   age: string;
-//   status: VaccinationStatus;
-//   progress: number;
-//   applied: number;
-//   pending: number;
-//   overdue: number;
-// }
 
 @Component({
   selector: 'app-child-card',
