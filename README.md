@@ -32,7 +32,7 @@ http://localhost:4200
 
 ## Demonstração
 
-**Aplicação:** <LINK_DA_APLICACAO>
+**Aplicação:** https://earnest-pasca-598d5d.netlify.app/dashboard
 
 ## Evidências
 
