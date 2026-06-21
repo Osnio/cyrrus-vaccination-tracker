@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { PageHeader } from "../../shared/component/page-header/page-header";
-import { FilterToolbar } from "../../shared/component/filter-toolbar/filter-toolbar";
-import {ReportsCard } from '../../shared/component/reports-card/reports-card';
+import { PageHeader } from "../../shared/components/page-header/page-header";
+import { FilterToolbar } from "../../shared/components/filter-toolbar/filter-toolbar";
+import {ReportsCard } from '../../shared/components/reports-card/reports-card';
 import { CHILD_DETAIL_DATA } from '../../mocks/child-detail.data';
 import { ChildDetailData, Vaccine, Metric } from '../../shared/models/child-detail.model';
 

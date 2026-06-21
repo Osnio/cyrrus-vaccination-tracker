@@ -3,10 +3,10 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { VaccinationService } from '../services/vaccination.service';
-import { ReportsCard } from '../shared/component/reports-card/reports-card';
+import { ReportsCard } from '../shared/components/reports-card/reports-card';
 import { Metric } from "../shared/models/child-detail.model";
-import { ChildProgressCard } from '../shared/component/child-progress-card/child-progress-card';
-import { PageHeader } from "../shared/component/page-header/page-header";
+import { ChildProgressCard } from '../shared/components/child-progress-card/child-progress-card';
+import { PageHeader } from "../shared/components/page-header/page-header";
 import { PROXIMAS_VACINACOES, ALERTAS_IMPORTANTES, ULTIMAS_APLICADAS, CAMPANHAS_DESTAQUE, RESUMO_CRIANCAS } from '../mocks/dashboard.data';
 
 

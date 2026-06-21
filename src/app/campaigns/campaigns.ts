@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CampaignsCard, Campaign } from '../shared/component/campaigns-card/campaigns-card';
-import { FilterToolbar } from '../shared/component/filter-toolbar/filter-toolbar';
-import { PageHeader } from "../shared/component/page-header/page-header";
+import { CampaignsCard, Campaign } from '../shared/components/campaigns-card/campaigns-card';
+import { FilterToolbar } from '../shared/components/filter-toolbar/filter-toolbar';
+import { PageHeader } from "../shared/components/page-header/page-header";
 import { CAMPAIGNS_DATA } from '../mocks/ampaigns.data';
 
 @Component({

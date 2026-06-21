@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageHeader } from "../shared/component/page-header/page-header";
-import { ReportsCard } from '../shared/component/reports-card/reports-card';
+import { PageHeader } from "../shared/components/page-header/page-header";
+import { ReportsCard } from '../shared/components/reports-card/reports-card';
 import { Metric } from "../shared/models/child-detail.model";
 
 @Component({

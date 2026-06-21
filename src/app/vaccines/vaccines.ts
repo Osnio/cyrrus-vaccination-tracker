@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { VaccineCard } from "../shared/component/vaccine-card/vaccine-card";
-import { PageHeader } from "../shared/component/page-header/page-header";
-import { FilterToolbar } from "../shared/component/filter-toolbar/filter-toolbar";
+import { VaccineCard } from "../shared/components/vaccine-card/vaccine-card";
+import { PageHeader } from "../shared/components/page-header/page-header";
+import { FilterToolbar } from "../shared/components/filter-toolbar/filter-toolbar";
 import { VACCINES_DATA } from '../mocks/vaccines.data';
 
 export interface Vaccine {

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChildCard } from "../shared/component/child-card/child-card";
-import { PageHeader } from "../shared/component/page-header/page-header";
-import { FilterToolbar } from "../shared/component/filter-toolbar/filter-toolbar";
+import { ChildCard } from "../shared/components/child-card/child-card";
+import { PageHeader } from "../shared/components/page-header/page-header";
+import { FilterToolbar } from "../shared/components/filter-toolbar/filter-toolbar";
 import { CHILDREN_DATA } from '../mocks/children.data';
 import { Child } from '../shared/models/child.model';
 
