@@ -83,6 +83,7 @@ export class Dashboard {
     { name: 'Pendentes', value: this.metrics.pending, color: 'var(--color-secondary)' },
     { name: 'Atrasadas', value: this.metrics.overdue, color: 'var(--color-accent)' },
   ];
+  
   // Adicione estas propriedades com os dados mock:
   proximasVacinacoes = [
     { crianca: "Laura Martins", vacina: "Influenza · Dose 1", data: "27 jun", prazo: "em 6 dias" },
@@ -122,7 +123,6 @@ export class Dashboard {
 
   radialData = [{ name: 'Família', value: this.metrics.totalProgress, fill: 'var(--color-primary)' }];
 
-  // Placeholder para gráficos Recharts
   getRadialProgress(): number {
     return this.metrics.totalProgress;
   }

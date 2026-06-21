@@ -78,6 +78,7 @@ export class Campaigns {
       status: "Encerrada"
     }
   ];
+  
   get filters() {
     return [
       {

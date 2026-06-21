@@ -1,4 +1,4 @@
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+<main class="max-w-7xl mx-auto">
 
   <div class="mb-8">
     <app-page-header 
@@ -18,7 +18,7 @@
     </app-filter-toolbar>
   </div>
 
-  <!-- GRID DE CARDS - RESPONSIVO -->
+  
   <div class="children-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
     <app-child-card
       *ngFor="let child of filteredChildren"
@@ -26,7 +26,7 @@
     </app-child-card>
   </div>
 
-  <!-- Mensagem quando não há resultados -->
+  
   <div *ngIf="filteredChildren.length === 0" class="text-center py-16 text-muted-foreground">
     Nenhuma criança encontrada com os filtros aplicados.
   </div>

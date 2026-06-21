@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { PageHeader } from "../../shared/component/page-header/page-header";
+import { FilterToolbar } from "../../shared/component/filter-toolbar/filter-toolbar";
+import { Metric, ReportsCard } from '../../shared/component/reports-card/reports-card';
 
 export interface Vaccine {
   nome: string;
@@ -32,7 +35,7 @@ export interface ChildDetailData {
 @Component({
   selector: 'app-child-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PageHeader, FilterToolbar, ReportsCard],
   templateUrl: './child-detail.html',
   styleUrl: './child-detail.css',
 })
@@ -41,6 +44,7 @@ export class ChildDetail implements OnInit {
   filteredVaccines: Vaccine[] = [];
   searchTerm: string = '';
   activeFilter: string = 'Todas';
+  metrics: Metric[] = [];
 
   private allChildren: ChildDetailData[] = [
     {
@@ -74,7 +78,7 @@ export class ChildDetail implements OnInit {
       "genero": "Feminino",
       "statusGeral": "Vacina atrasada",
       "progresso": 73,
-      "contadores": { "aplicadas": 8, "pendentes": 3, "atrasadas": 1, "total": 11 },
+      "contadores": { "aplicadas": 8, "pendentes": 2, "atrasadas": 1, "total": 11 },
       "vacinas": [
         { "nome": "Meningocócica C", "dose": "Dose 2/3", "desc": "Imuniza contra meningite meningocócica do tipo C.", "data": "18/07/2026", "recom": "3, 5 meses e reforço aos 12 meses", "status": "Próxima" },
         { "nome": "Pentavalente", "dose": "Dose 3/3", "desc": "Combina proteção contra Difteria, Tétano, Coqueluche, Hib e Hepatite B.", "data": "04/07/2026", "recom": "2, 4 e 6 meses", "status": "Próxima" },
@@ -149,6 +153,39 @@ export class ChildDetail implements OnInit {
    
   ];
 
+  private createMetrics() {
+    this.metrics = [
+      {
+        title: 'APLICADAS',
+        value: this.child.contadores.aplicadas,
+        subtitle: 'Vacinas já aplicadas',
+        icon: 'bi bi-check-circle-fill',
+        color: 'var(--primary)'
+      },
+      {
+        title: 'PENDENTES',
+        value: this.child.contadores.pendentes,
+        subtitle: 'Próximas vacinas',
+        icon: 'bi bi-clock-history',
+        color: 'var(--accent)'
+      },
+      {
+        title: 'ATRASADAS',
+        value: this.child.contadores.atrasadas,
+        subtitle: 'Urgente atenção',
+        icon: 'bi bi-exclamation-triangle-fill',
+        color: '#ef4444'   // vermelho
+      },
+      {
+        title: 'TOTAL',
+        value: this.child.contadores.total,
+        subtitle: 'Vacinas no calendário',
+        icon: 'bi bi-calendar3',
+        color: 'var(--dark)'
+      }
+    ];
+  }
+
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
@@ -161,6 +198,7 @@ export class ChildDetail implements OnInit {
       this.child = found;
       this.filteredVaccines = [...this.child.vacinas];
       this.filterVaccines(); // aplica filtros iniciais
+      this.createMetrics();
     } else {
       console.error('Criança não encontrada com ID:', id);
       this.router.navigate(['/children']);
@@ -172,17 +210,21 @@ export class ChildDetail implements OnInit {
 
     let result = [...this.child.vacinas];
 
+    // Pesquisa
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
       result = result.filter(v => 
-        v.nome.toLowerCase().includes(term) || v.desc.toLowerCase().includes(term)
+        v.nome.toLowerCase().includes(term) || 
+        v.desc.toLowerCase().includes(term)
       );
     }
 
+    // Filtro por status
     if (this.activeFilter !== 'Todas') {
       result = result.filter(v => v.status === this.activeFilter);
     }
 
+    // Ordenação por data (mais recente primeiro)
     result.sort((a, b) => {
       const dateA = new Date(a.data.split('/').reverse().join('-'));
       const dateB = new Date(b.data.split('/').reverse().join('-'));
@@ -190,6 +232,43 @@ export class ChildDetail implements OnInit {
     });
 
     this.filteredVaccines = result;
+  }
+
+  get filters() {
+    return [
+      {
+        label: `Todas (${this.child?.vacinas.length || 0})`,
+        value: 'Todas'
+      },
+      {
+        label: `Aplicadas (${this.getCount('Aplicada')})`,
+        value: 'Aplicada'
+      },
+      {
+        label: `Próximas (${this.getCount('Próxima')})`,
+        value: 'Próxima'
+      },
+      {
+        label: `Atrasadas (${this.getCount('Atrasada')})`,
+        value: 'Atrasada'
+      }
+    ];
+  }
+
+  onSearchChange(term: string) {
+    this.searchTerm = term;
+    this.filterVaccines();
+  }
+
+  setFilter(filter: string) {
+    this.activeFilter = filter;
+    this.filterVaccines();
+  }
+
+  // Helper para contar vacinas por status
+  private getCount(status: string): number {
+    if (!this.child) return 0;
+    return this.child.vacinas.filter(v => v.status === status).length;
   }
 
   getStatusClass(status: string): string {
@@ -200,6 +279,8 @@ export class ChildDetail implements OnInit {
       default: return '';
     }
   }
+
+  
 
   goBack() {
     this.router.navigate(['/children']);
