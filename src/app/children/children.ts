@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChildCard } from "../shared/component/child-card/child-card";
 import { PageHeader } from "../shared/component/page-header/page-header";
+import { FilterToolbar } from "../shared/component/filter-toolbar/filter-toolbar";
 
 export interface Child {
   id: string;
@@ -18,12 +19,12 @@ export interface Child {
 @Component({
   selector: 'app-children',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChildCard, PageHeader],
+  imports: [CommonModule, FormsModule, ChildCard, PageHeader, FilterToolbar],
   templateUrl: './children.html',
   styleUrl: './children.css',
 })
 export class Children {
-  children: Child[] = [ /* seus dados */ 
+  children: Child[] = [
     { id: '1', name: 'Arthur Martins', age: '3 anos', status: 'Próxima vacinação', progress: 91, applied: 10, pending: 1, overdue: 0 },
     { id: '2', name: 'Helena Martins', age: '2 anos e 3m', status: 'Vacina atrasada', progress: 73, applied: 8, pending: 3, overdue: 1 },
     { id: '3', name: 'Laura Martins', age: '5 anos', status: 'Vacina atrasada', progress: 63, applied: 5, pending: 3, overdue: 2 },
@@ -77,5 +78,22 @@ export class Children {
     });
 
     this.filteredChildren = result;
+  }
+
+  
+  sortOptions = [
+    { label: 'Ordenar: Nome', value: 'name' },
+    { label: 'Ordenar: Progresso', value: 'progress' },
+    { label: 'Ordenar: Idade', value: 'age' }
+  ];
+
+  onSearchChange(term: string) {
+    this.searchTerm = term;
+    this.applyFilters();
+  }
+
+  onSortChange(value: string) {
+    this.sortBy = value as 'name' | 'progress' | 'age';
+    this.applyFilters();
   }
 }

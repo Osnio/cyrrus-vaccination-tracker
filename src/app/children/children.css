@@ -1,8 +1,29 @@
+/* ===================== GRID RESPONSIVO ===================== */
+.children-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Ajustes por breakpoint */
+@media (min-width: 640px) {
+  .children-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .children-grid {
+    gap: 1.75rem;
+  }
+}
+
 /* Filtros */
 button {
   background: #f5f0e6;
   color: var(--dark);
   border: none;
+  transition: all 0.2s ease;
 }
 
 button.active {
@@ -15,9 +36,10 @@ button:hover:not(.active) {
   background: #ede6d9;
 }
 
-/* Grid responsivo */
-.children-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+/* Mensagem quando não há resultados */
+.no-results {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--muted-foreground);
+  font-size: 1.1rem;
 }

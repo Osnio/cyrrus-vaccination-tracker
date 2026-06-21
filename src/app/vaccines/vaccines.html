@@ -1,42 +1,20 @@
-<main class="max-w-7xl mx-auto px-4 py-10">
- 
+<main class="max-w-7xl mx-auto">
+  
   <app-page-header 
     title="Catálogo de vacinas" 
-    subtitle="Referência completa do calendário nacional de vacinação infantil."
+    subtitle="Referência completa do calendário nacional de vacinação infantil." 
   />
 
-  <!-- Toolbar -->
-  <div class="bg-white border border-gray-100 rounded-3xl p-5 mb-10 flex flex-col md:flex-row gap-4 items-center">
-    <!-- Search -->
-    <div class="flex-1 relative">
-      <div class="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
-        <i class="bi bi-search"></i>
-      </div>
-      <input 
-        type="text"
-        [(ngModel)]="searchTerm"
-        (input)="onSearch()"   
-        placeholder="Buscar vacina ou condição..."
-        class="w-full bg-[#f8f4ed] border border-transparent focus:border-(--accent) pl-12 py-4 rounded-3xl text-sm focus:outline-none"
-      />
-    </div>
-
-    <!-- Filters -->
-    <div class="flex gap-2 flex-wrap">
-      <button *ngFor="let filter of ['Todas', 'Obrigatórias', 'Campanhas', 'Especiais']"
-              (click)="setFilter(filter)"
-              [class.active]="activeFilter === filter"
-              class="px-7 py-3 rounded-3xl text-sm font-medium transition-all">
-        {{ filter }}
-      </button>
-    </div>
-  </div>
+  <app-filter-toolbar
+    [searchTerm]="searchTerm"
+    [activeFilter]="activeFilter"
+    [filters]="filters"
+    (searchChange)="onSearchChange($event)"
+    (filterChange)="setFilter($event)">
+  </app-filter-toolbar>
 
   <!-- Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <app-vaccine-card 
-      *ngFor="let vaccine of filteredVaccines" 
-      [vaccine]="vaccine">
-    </app-vaccine-card>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+    <app-vaccine-card *ngFor="let vaccine of filteredVaccines" [vaccine]="vaccine"></app-vaccine-card>
   </div>
 </main>

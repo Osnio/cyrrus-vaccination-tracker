@@ -1,0 +1,22 @@
+/* custom-select.css */
+
+button {
+  cursor: pointer;
+}
+
+/* Animação suave */
+.option-item {
+  transition: all 0.2s ease;
+}
+
+/* Hover nas opções não selecionadas */
+.option-item:hover:not(.selected) {
+  background: var(--accent) !important;
+  color: white !important;
+}
+
+/* Item selecionado */
+.selected {
+  background: var(--primary) !important;
+  color: white !important;
+}

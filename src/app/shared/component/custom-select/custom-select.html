@@ -1,0 +1,21 @@
+<div class="relative w-full min-w-45">
+  <button 
+    (click)="toggle()"
+    class="w-full bg-white border border-gray-200 hover:border-(--accent) rounded-2xl px-4 py-3.5 text-sm flex items-center justify-between focus:outline-none transition-all">
+    <span>{{ options.find(opt => opt.value === selectedValue)?.label || 'Selecione...' }}</span>
+    <i class="bi bi-chevron-down transition-transform" [class.rotate-180]="isOpen"></i>
+  </button>
+
+  <!-- Dropdown -->
+  <div *ngIf="isOpen" 
+       class="absolute mt-2 w-full bg-white border border-gray-200 rounded-2xl shadow-xl py-2 z-50 max-h-60 overflow-auto">
+    <div *ngFor="let opt of options" 
+         (click)="selectOption(opt.value)"
+         class="px-4 py-3 cursor-pointer transition-colors text-sm"
+         [class.bg-(--primary)]="opt.value === selectedValue"
+         [class.text-white]="opt.value === selectedValue"
+         [class.hover:bg-(--accent)]="opt.value !== selectedValue">
+      {{ opt.label }}
+    </div>
+  </div>
+</div>

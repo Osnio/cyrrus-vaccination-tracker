@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CampaignsCard, Campaign } from '../shared/component/campaigns-card/campaigns-card';
+import { FilterToolbar } from '../shared/component/filter-toolbar/filter-toolbar';
+import { PageHeader } from "../shared/component/page-header/page-header";
 
 @Component({
   selector: 'app-campaigns',
   standalone: true,
-  imports: [CommonModule, CampaignsCard],
+  imports: [CommonModule, CampaignsCard, FilterToolbar, PageHeader],
   templateUrl: './campaigns.html',
   styleUrl: './campaigns.css',
 })
 export class Campaigns {
+  searchTerm: string = '';
   activeFilter: string = 'Todas';
 
   campaigns: Campaign[] = [
@@ -75,6 +78,26 @@ export class Campaigns {
       status: "Encerrada"
     }
   ];
+  get filters() {
+    return [
+      {
+        label: `Todas (${this.campaigns.length})`,
+        value: 'Todas'
+      },
+      {
+        label: `Ativas (${this.campaigns.filter(c => c.status === 'Ativa').length})`,
+        value: 'Ativa'
+      },
+      {
+        label: `Futuras (${this.campaigns.filter(c => c.status === 'Futura').length})`,
+        value: 'Futura'
+      },
+      {
+        label: `Encerradas (${this.campaigns.filter(c => c.status === 'Encerrada').length})`,
+        value: 'Encerrada'
+      }
+    ];
+  }
 
   // Mapeamento para corrigir plural x singular
   private statusMap: { [key: string]: string } = {
@@ -85,16 +108,32 @@ export class Campaigns {
   };
 
   get filteredCampaigns(): Campaign[] {
-    if (this.activeFilter === 'Todas') {
-      return [...this.campaigns];
+    let result = [...this.campaigns];
+
+    // Pesquisa
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase();
+
+      result = result.filter(c =>
+        c.titulo.toLowerCase().includes(term) ||
+        c.descricao.toLowerCase().includes(term) ||
+        c.publico.toLowerCase().includes(term)
+      );
     }
 
-    const statusToFilter = this.statusMap[this.activeFilter];
-    return this.campaigns.filter(c => c.status === statusToFilter);
-  }
+    // Filtro
+    if (this.activeFilter !== 'Todas') {
+      result = result.filter(c => c.status === this.activeFilter);
+    }
 
+    return result;
+  }
   setFilter(filter: string) {
     this.activeFilter = filter;
+  }
+
+  onSearchChange(term: string) {
+    this.searchTerm = term;
   }
 
   getCount(filter: string): number {

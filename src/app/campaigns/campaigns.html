@@ -1,10 +1,9 @@
-<main class="max-w-7xl mx-auto px-4 py-10">
-  <!-- Header -->
-  <div class="mb-10">
-    <p class="text-sm font-medium tracking-widest text-(--primary)">CYRRUS HEALTH</p>
-    <h1 class="text-4xl font-bold text-(--dark) mt-2">Campanhas de Vacinação</h1>
-    <p class="text-gray-600 mt-2">Acompanhe as oportunidades de imunização disponíveis para sua família.</p>
-  </div>
+<main class="max-w-7xl mx-auto">
+
+  <app-page-header 
+    title="Campanhas de Vacinação" 
+    subtitle="Acompanhe as oportunidades de imunização disponíveis para sua família."
+  />
 
   <!-- Banner de Destaque -->
   <div class="highlight-banner mb-12">
@@ -24,21 +23,17 @@
     </div>
   </div>
 
-  <!-- Filtros -->
-  <div class="filters mb-10 cursor-pointer">
-    <button class="cursor-pointer"
-            *ngFor="let filter of ['Todas','Ativas', 'Futuras', 'Encerradas']"
-            (click)="setFilter(filter)"
-            [class.active]="activeFilter === filter"
-            class="filter-btn">
-      {{ filter }}
-      <span class="count" *ngIf="filter !== 'Todas'">
-        ({{ getCount(filter) }})
-      </span>
-    </button>
+  <div class="mb-8">
+    <app-filter-toolbar
+      [searchTerm]="searchTerm"
+      [activeFilter]="activeFilter"
+      [filters]="filters"
+      (searchChange)="onSearchChange($event)"
+      (filterChange)="setFilter($event)">
+    </app-filter-toolbar>
   </div>
 
-  <!-- Grid -->
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <app-campaigns-card 
       *ngFor="let campaign of filteredCampaigns" 

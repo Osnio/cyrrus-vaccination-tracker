@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VaccineCard } from "../shared/component/vaccine-card/vaccine-card";
 import { PageHeader } from "../shared/component/page-header/page-header";
+import { FilterToolbar } from "../shared/component/filter-toolbar/filter-toolbar";
 
-// Interface local compatível com o VaccineCard
 export interface Vaccine {
   nome: string;
   periodo: string;
@@ -17,7 +17,7 @@ export interface Vaccine {
 @Component({
   selector: 'app-vaccines',
   standalone: true,          // ← Adicione isso
-  imports: [CommonModule, FormsModule, VaccineCard, PageHeader],
+  imports: [CommonModule, FormsModule, VaccineCard, PageHeader, FilterToolbar],
   templateUrl: './vaccines.html',
   styleUrl: './vaccines.css',
 })
@@ -134,6 +134,17 @@ export class Vaccines {
     this.activeFilter = filter;
   }
   onSearch() {
-  // Apenas para forçar atualização (o getter já reage)
-}
+    // Apenas para forçar atualização (o getter já reage)
+  }
+  filters = [
+    { label: 'Todas', value: 'Todas' },
+    { label: 'Obrigatórias', value: 'Obrigatórias' },
+    { label: 'Campanhas', value: 'Campanhas' },
+    { label: 'Especiais', value: 'Especiais' }
+  ];
+
+  onSearchChange(term: string) {
+    this.searchTerm = term;
+    // O getter filteredVaccines já reage automaticamente
+  }
 }

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportsCard, Metric } from '../shared/component/reports-card/reports-card';
+import { PageHeader } from "../shared/component/page-header/page-header";
 
 @Component({
   selector: 'app-reports-children',
   standalone: true,
-  imports: [CommonModule, ReportsCard],
+  imports: [CommonModule, ReportsCard, PageHeader],
   templateUrl: './reports-children.html',
   styleUrl: './reports-children.css',
 })
