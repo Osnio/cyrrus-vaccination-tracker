@@ -1,0 +1,60 @@
+import { Campaign } from '../shared/models/campaign.model';
+
+export const CAMPAIGNS_DATA: Campaign[] = [
+  {
+    id: 1,
+    titulo: "Campanha Nacional de Vacinação contra a Gripe 2026",
+    descricao: "Imunização gratuita contra os subtipos circulantes do vírus Influenza, com foco em crianças de 6 meses a 6 anos.",
+    publico: "Crianças de 6 meses a 6 anos",
+    periodo: "10 jun — 09 ago 26",
+    status: "Ativa"
+  },
+  {
+    id: 2,
+    titulo: "Dia D Multivacinação - Poliomielite",
+    descricao: "Atualização da caderneta de vacinação com foco em poliomielite e demais vacinas pendentes da rotina infantil.",
+    publico: "Crianças menores de 5 anos",
+    periodo: "17 jun — 15 jul 26",
+    status: "Ativa"
+  },
+  {
+    id: 3,
+    titulo: "Programa HPV Adolescentes",
+    descricao: "Campanha de prevenção ao HPV com foco em adolescentes de 9 a 14 anos, conforme PNI.",
+    publico: "Crianças e adolescentes 9-14 anos",
+    periodo: "21 mai — 18 set 26",
+    status: "Ativa"
+  },
+  {
+    id: 4,
+    titulo: "Campanha de Sarampo e Rubéola 2026",
+    descricao: "Reforço nacional contra sarampo e rubéola para proteger as crianças que ainda não completaram o esquema vacinal.",
+    publico: "Crianças de 6 meses a 15 anos",
+    periodo: "01 set — 30 out 26",
+    status: "Futura"
+  },
+  {
+    id: 5,
+    titulo: "Vacinação contra Dengue - Fase 2",
+    descricao: "Ampliação da vacinação contra dengue para mais faixas etárias em regiões endêmicas.",
+    publico: "Crianças e adolescentes de 6 a 16 anos",
+    periodo: "15 ago — 10 nov 26",
+    status: "Futura"
+  },
+  {
+    id: 6,
+    titulo: "Campanha de Febre Amarela 2025",
+    descricao: "Campanha de vacinação contra febre amarela realizada no ano anterior.",
+    publico: "Crianças acima de 9 meses",
+    periodo: "10 jan — 20 mar 26",
+    status: "Encerrada"
+  },
+  {
+    id: 7,
+    titulo: "Multivacinação de Inverno 2025",
+    descricao: "Reforço geral de vacinas durante o período de inverno.",
+    publico: "Crianças de 0 a 10 anos",
+    periodo: "05 abr — 20 mai 26",
+    status: "Encerrada"
+  }
+];

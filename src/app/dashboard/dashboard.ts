@@ -1,16 +1,10 @@
-import { ProgressRing } from './../shared/component/progress-ring/progress-ring';
-import { ProgressBar } from './../shared/component/progress-bar/progress-bar';
-import { StatusBadge } from './../shared/component/status-badge/status-badge';
-import { SectionHeading } from './../shared/component/section-heading/section-heading';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-// import { AppLayout } from '../shared/component/app-layout/app-layout';
-import { StatCard } from '../shared/component/stat-card/stat-card';
-
 import { VaccinationService } from '../services/vaccination.service';
-import { Metric, ReportsCard } from "../shared/component/reports-card/reports-card";
+import { ReportsCard } from '../shared/component/reports-card/reports-card';
+import { Metric } from "../shared/models/child-detail.model";
 import { ChildProgressCard } from '../shared/component/child-progress-card/child-progress-card';
 import { PageHeader } from "../shared/component/page-header/page-header";
 
@@ -20,7 +14,6 @@ import { PageHeader } from "../shared/component/page-header/page-header";
   imports: [
     CommonModule,
     RouterLink,
-    ProgressBar,
     ReportsCard,
     ChildProgressCard,
     PageHeader

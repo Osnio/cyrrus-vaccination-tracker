@@ -1,13 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface Metric {
-  title: string;
-  value: string | number;
-  subtitle: string;
-  icon: string;
-  color: string;
-}
+import { Metric } from '../../models/child-detail.model';
 
 @Component({
   selector: 'app-reports-card',

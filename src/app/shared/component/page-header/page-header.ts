@@ -11,6 +11,6 @@ import { CommonModule } from '@angular/common';
 export class PageHeader {
   @Input() title: string = '';
   @Input() subtitle: string = '';
-  @Input() icon: string = '';           // Ex: "bi bi-people"
-  @Input() showBrand: boolean = true;   // Mostra "CYRRUS HEALTH" por padrão
+  @Input() icon: string = '';          
+  @Input() showBrand: boolean = true;   
 }
