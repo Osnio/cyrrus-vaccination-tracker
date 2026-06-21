@@ -1,15 +1,18 @@
 <div class="layout-root bg-slate-600">
-
-  <!-- SIDEBAR - APENAS DESKTOP -->
   <aside class="sidebar hidden lg:flex w-64 shrink-0 flex-col text-white sticky top-0 h-screen">
-    <div class="sidebar-logo text-2xl flex font-bold text-center items-center -6">
+    <a routerLink="/dashboard">
+      <div class="cursor-pointer items-center gap-x-3 mb-8 px-2 hidden lg:flex">
+        <div class="w-11 h-11 shrink-0 rounded-full bg-linear-to-r from-(--primary) to-(--secondary) flex items-center justify-center shadow-lg shadow-black/20">
+          <i class="bi bi-calendar-heart text-2xl text-(--dark)"></i>
+        </div>
+  
+        <div class="flex flex-col gap-1">
+          <span class="font-bold text-[1.75rem] leading-none text-white tracking-tight">Cyrrus</span>
+          <span class="text-[10px] font-semibold uppercase tracking-[0.125em] text-(--secondary) mt-0.5">Vacinação Infantil</span>
+        </div>
+      </div>
 
-      <i class="bi bi-shield-plus text-2xl text-primary"></i> 
-      <aside>
-        <p>Cyrrus</p> 
-        <span class=" text-[12px] text-(--secondary)">Vacinação Infantil</span>
-      </aside>
-    </div>
+    </a>
 
     <nav class="flex flex-col gap-1 mt-4">
       @for (item of nav; track item.to) {
@@ -35,13 +38,37 @@
 
   <!-- MAIN AREA -->
   <div class="main-area flex-1 flex flex-col min-h-screen">
-    <header class="bg-white  top-0 z-50 sticky mx-0  bg-background/85 backdrop-blur  px-4 lg:px-6 py-3.5">
-      <div class="px-4 lg:px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="hidden md:flex items-center gap-2 bg-muted rounded-xl px-4 py-2 w-full max-w-md">
-            <i class="bi bi-search"></i>
-            <input type="text" placeholder="Buscar crianças, vacinas..." 
-                    class="bg-transparent border-0 focus:outline-none flex-1 text-sm">
+
+    <header class="bg-(--primary) top-0 z-50 sticky mx-0 bg-background/85 backdrop-blur px-4 lg:px-6 py-1.5">
+      <div class="lg:px-6 py-4 flex items-center justify-between">
+        <a routerLink="/dashboard">
+          <div class="flex items-center gap-x-3 lg:hidden">
+            <div class="w-9 h-9 shrink-0 rounded-full bg-linear-to-r from-(--primary) to-(--secondary) flex items-center justify-center shadow-lg shadow-black/20">
+              <i class="bi bi-calendar-heart text-xl text-(--dark)"></i>
+            </div>
+  
+            <div class="flex flex-col gap-1">
+              <span class="font-bold text-[1.65rem] leading-none text-(--dark) tracking-tight">Cyrrus</span>
+              <span class="text-[9px] font-semibold uppercase tracking-[0.125em] text-white">Vacinação Infantil</span>
+            </div>
+          </div>
+        </a>
+
+        <div class="flex-1 flex items-center justify-center md:justify-start">
+          <div class="hidden md:flex w-full max-w-md">
+            <div class="relative flex-1 group">
+              <div class="flex items-center gap-3 bg-[#F8F5EF] hover:bg-[#F4EFE6] focus-within:bg-white 
+                          border border-gray-100 focus-within:border-(--accent) 
+                          rounded-full px-5 py-3 transition-all duration-200 shadow-sm focus-within:shadow-md">
+                
+                <i class="bi bi-search text-gray-400 group-focus-within:text-(--accent) text-lg transition-colors"></i>
+                
+                <input 
+                  type="text" 
+                  placeholder="Buscar crianças, vacinas, campanhas..."
+                  class="bg-transparent border-0 focus:outline-none flex-1 text-sm text-(--dark) placeholder:text-gray-400">
+              </div>
+            </div>
           </div>
         </div>
 
@@ -63,14 +90,12 @@
         </div>
       </div>
     </header>
-  
 
     <!-- CONTEÚDO -->
     <main class="flex-1 overflow-auto p-4 lg:p-6 pb-20 lg:pb-6">
       <router-outlet></router-outlet>
     </main>
 
-    <!-- BOTTOM NAV - MOBILE -->
     <nav class="bottom-nav lg:hidden fixed bottom-0 left-0 right-0 bg-[#1A2035] text-white border-t border-orange-500/20 shadow-2xl z-50">
       <div class="flex items-center justify-around py-3 px-2 max-w-lg mx-auto">
         @for (item of nav; track item.to) {

@@ -13,42 +13,11 @@ import { Metric } from "../shared/models/child-detail.model";
 })
 export class ReportsChildren {
   metrics: Metric[] = [
-    {
-      title: "COBERTURA GERAL",
-      value: "81%",
-      subtitle: "Família",
-      icon: "bi bi-people",
-      color: "#ABC270"
-    },
-    {
-      title: "VACINAS APLICADAS",
-      value: 35,
-      subtitle: "Total acumulado",
-      icon: "bi bi-check-circle",
-      color: "#ABC270"
-    },
-    {
-      title: "NO PRAZO",
-      value: 5,
-      subtitle: "Próximas recomendadas",
-      icon: "bi bi-calendar-check",
-      color: "#FEC868"
-    },
-    {
-      title: "ATRASADAS",
-      value: 3,
-      subtitle: "Requer atenção imediata",
-      icon: "bi bi-exclamation-triangle",
-      color: "#FDA769"
-    },
-
-    {
-      title: "CRIANÇAS EM DIA",
-      value: "1",
-      subtitle: "Miguel",
-      icon: "bi bi-shield-check",
-      color: "#ABC270"
-    }
+    { title: "COBERTURA GERAL", value: "81%", subtitle: "Família", icon: "bi bi-people", color: "#ABC270" },
+    { title: "VACINAS APLICADAS", value: 35, subtitle: "Total acumulado", icon: "bi bi-check-circle", color: "#ABC270" },
+    { title: "NO PRAZO", value: 5, subtitle: "Próximas recomendadas", icon: "bi bi-calendar-check", color: "#FEC868" },
+    { title: "ATRASADAS", value: 3, subtitle: "Requer atenção imediata", icon: "bi bi-exclamation-triangle", color: "#FDA769" },
+    { title: "CRIANÇAS EM DIA", value: "1", subtitle: "Miguel", icon: "bi bi-shield-check", color: "#ABC270" }
   ];
 
   familyData = {
@@ -67,6 +36,7 @@ export class ReportsChildren {
       { nome: "Sofia", aplicadas: 4, pendentes: 1, atrasadas: 0, porcentagem: 80 }
     ]
   };
+
   getPercentage(value: number, child: any): number {
     const total = child.aplicadas + child.pendentes + child.atrasadas;
     if (total === 0) return 0;

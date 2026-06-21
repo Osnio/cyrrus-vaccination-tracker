@@ -1,13 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface ChildSummary {
-  nome: string;
-  idade: string;
-  porcentagem: number;
-  status: string;
-  detalhe: string;
-}
+import { ChildSummary } from '../../models/dashboard.model';
 
 @Component({
   selector: 'app-child-progress-card',
