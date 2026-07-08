@@ -1,8 +1,8 @@
 <main class="max-w-7xl mx-auto">
-  <div class="flex items-center justify-between mb-10">
+  <div class="flex items-center justify-between">
   
     <app-page-header 
-       [title]="`${child.nome}`"
+      [title]="`${child.nome}`"
       subtitle="Perfil vacinal completo e linha do tempo"
     />
 
@@ -114,10 +114,10 @@
     </app-filter-toolbar>
   </div>
 
-  <h3 class="text-xl font-semibold text-(--dark) mb-6">Linha do tempo vacinal</h3>
+<h3 class="text-xl font-semibold text-(--dark) mb-6">Linha do tempo vacinal</h3>
 
   <div class="relative pl-8 space-y-8 before:absolute before:left-3.75 before:top-3 before:bottom-3 before:w-0.75 before:bg-gray-200">
-    <div *ngFor="let vacina of filteredVaccines" 
+    <div *ngFor="let vacina of filteredVaccines; let i = index" 
          class="relative group">
       
       <!-- Dot -->
@@ -153,7 +153,30 @@
             <strong class="text-(--dark)">{{ vacina.recom }}</strong>
           </div>
         </div>
+
+        <!-- Botão Registrar Aplicação -->
+        <div class="mt-6">
+          <button *ngIf="vacina.status !== 'Aplicada'" 
+                  (click)="registerApplication(i)"
+                  class="text-(--primary) hover:text-(--accent) font-medium flex items-center gap-1.5 text-sm transition-colors">
+            <i class="bi bi-check-circle"></i> 
+            Registrar aplicação
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <app-register-vaccine-modal 
+    *ngIf="showRegisterModal"
+    [childId]="child.id"
+    [vaccineIndex]="selectedVaccineIndex"
+    (closed)="showRegisterModal = false; filterVaccines(); createMetrics()">
+  </app-register-vaccine-modal>
+
+  <app-add-extra-vaccine-modal 
+    *ngIf="showAddVaccineModal"
+    [childId]="child.id"
+    (closed)="onAddVaccineModalClosed()">
+  </app-add-extra-vaccine-modal>
 </main>

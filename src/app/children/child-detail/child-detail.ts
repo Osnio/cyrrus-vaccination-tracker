@@ -2,37 +2,63 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 import { PageHeader } from "../../shared/components/page-header/page-header";
 import { FilterToolbar } from "../../shared/components/filter-toolbar/filter-toolbar";
-import {ReportsCard } from '../../shared/components/reports-card/reports-card';
-import { CHILD_DETAIL_DATA } from '../../mocks/child-detail.data';
-import { ChildDetailData, Vaccine, Metric } from '../../shared/models/child-detail.model';
+import { ReportsCard } from '../../shared/components/reports-card/reports-card';
 
+import { RegisterVaccineModal } from '../../shared/components/register-vaccine-modal/register-vaccine-modal';
+// import { AddExtraVaccineModal } from '../../shared/components/add-extra-vaccine-modal/add-extra-vaccine-modal'; // descomente quando criar o modal
+
+import { ChildDetailData, Vaccine, Metric } from '../../shared/models/child-detail.model';
+import { ChildService } from '../../services/child.service';
+import { ToastService } from '../../services/toast.service';
+import { AddExtraVaccineModal } from "../../shared/components/add-extra-vaccine-modal/add-extra-vaccine-modal";
 
 @Component({
   selector: 'app-child-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, PageHeader, FilterToolbar, ReportsCard],
+  imports: [
+    CommonModule,
+    FormsModule,
+    PageHeader,
+    FilterToolbar,
+    ReportsCard,
+    RegisterVaccineModal
+    // AddExtraVaccineModal  ← descomente depois de criar o componente
+    ,
+    AddExtraVaccineModal
+],
   templateUrl: './child-detail.html',
   styleUrl: './child-detail.css',
 })
 export class ChildDetail implements OnInit {
   child!: ChildDetailData;
   filteredVaccines: Vaccine[] = [];
+  
   searchTerm: string = '';
   activeFilter: string = 'Todas';
   metrics: Metric[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  showRegisterModal = false;
+  selectedVaccineIndex = -1;
+  showAddVaccineModal = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private childService: ChildService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
     const id = Number(idParam);
 
-    const found = CHILD_DETAIL_DATA.find(c => c.id === id);
+    const found = this.childService.getChildDetail(id);
 
     if (found) {
-      this.child = found;
+      this.child = { ...found }; // cópia para evitar mutação direta
       this.filteredVaccines = [...this.child.vacinas];
       this.filterVaccines();
       this.createMetrics();
@@ -41,12 +67,36 @@ export class ChildDetail implements OnInit {
     }
   }
 
-  private createMetrics() {
+  public createMetrics() {
     this.metrics = [
-      { title: 'APLICADAS', value: this.child.contadores.aplicadas, subtitle: 'Vacinas já aplicadas', icon: 'bi bi-check-circle-fill', color: 'var(--primary)' },
-      { title: 'PENDENTES', value: this.child.contadores.pendentes, subtitle: 'Próximas vacinas', icon: 'bi bi-clock-history', color: 'var(--accent)' },
-      { title: 'ATRASADAS', value: this.child.contadores.atrasadas, subtitle: 'Urgente atenção', icon: 'bi bi-exclamation-triangle-fill', color: '#ef4444' },
-      { title: 'TOTAL', value: this.child.contadores.total, subtitle: 'Vacinas no calendário', icon: 'bi bi-calendar3', color: 'var(--dark)' }
+      { 
+        title: 'APLICADAS', 
+        value: this.child.contadores.aplicadas, 
+        subtitle: 'Vacinas já aplicadas', 
+        icon: 'bi bi-check-circle-fill', 
+        color: 'var(--primary)' 
+      },
+      { 
+        title: 'PENDENTES', 
+        value: this.child.contadores.pendentes, 
+        subtitle: 'Próximas vacinas', 
+        icon: 'bi bi-clock-history', 
+        color: 'var(--accent)' 
+      },
+      { 
+        title: 'ATRASADAS', 
+        value: this.child.contadores.atrasadas, 
+        subtitle: 'Urgente atenção', 
+        icon: 'bi bi-exclamation-triangle-fill', 
+        color: '#ef4444' 
+      },
+      { 
+        title: 'TOTAL', 
+        value: this.child.contadores.total, 
+        subtitle: 'Vacinas no calendário', 
+        icon: 'bi bi-calendar3', 
+        color: 'var(--dark)' 
+      }
     ];
   }
 
@@ -92,11 +142,32 @@ export class ChildDetail implements OnInit {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Aplicada': return 'success';
-      case 'Próxima': return 'warning';
-      case 'Atrasada': return 'danger';
-      default: return '';
+      case 'Aplicada': return 'bg-(--primary) text-white';
+      case 'Próxima': return 'bg-(--accent) text-(--dark)';
+      case 'Atrasada': return 'bg-red-500 text-white';
+      default: return 'bg-gray-100 text-gray-600';
     }
+  }
+
+  registerApplication(index: number) {
+    this.selectedVaccineIndex = index;
+    this.showRegisterModal = true;
+  }
+
+  addExtraVaccine() {
+    this.showAddVaccineModal = true;
+  }
+
+  onRegisterModalClosed() {
+    this.showRegisterModal = false;
+    this.filterVaccines();
+    this.createMetrics();
+  }
+
+  onAddVaccineModalClosed() {
+    this.showAddVaccineModal = false;
+    this.filterVaccines();
+    this.createMetrics();
   }
 
   onSearchChange(term: string): void {

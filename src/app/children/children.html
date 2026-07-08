@@ -1,9 +1,17 @@
 <main class="max-w-7xl mx-auto">
-  <div class="mb-8">
+  <aside class="mb-8">
+    <div class="flex items-center justify-between mb-6">
     <app-page-header 
       title="Crianças" 
       subtitle="5 crianças cadastradas na sua família."
     />
+    <button (click)="openAddModal()" 
+      class="px-6 py-3 bg-(--primary) text-white rounded-3xl font-semibold flex items-center gap-2 hover:brightness-105">
+      <i class="bi bi-plus-lg"></i> Adicionar Criança
+    </button>
+
+    </div>
+    
 
     <app-filter-toolbar
       [searchTerm]="searchTerm"
@@ -15,7 +23,7 @@
       (filterChange)="setFilter($event)"
       (sortChange)="onSortChange($event)">
     </app-filter-toolbar>
-  </div>
+  </aside>
 
   
   <div class="children-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
@@ -29,5 +37,7 @@
   <div *ngIf="filteredChildren.length === 0" class="text-center py-16 text-muted-foreground">
     Nenhuma criança encontrada com os filtros aplicados.
   </div>
+
+  <app-add-child-modal *ngIf="showAddModal" (closed)="closeAddModal()"></app-add-child-modal>
 
 </main>

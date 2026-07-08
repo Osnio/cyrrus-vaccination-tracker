@@ -1,0 +1,45 @@
+<div class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" (click)="onBackdropClick($event)">
+  <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden" (click)="$event.stopPropagation()">
+    <div class="px-8 pt-8 pb-6">
+      <h2 class="text-2xl font-bold text-(--dark)">Cadastrar Nova Criança</h2>
+      <p class="text-gray-500 mt-1">Adicione um novo membro à família</p>
+    </div>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit()" class="px-8 pb-8 space-y-6">
+      <div>
+        <label class="block text-sm font-medium text-(--dark) mb-2">Nome Completo</label>
+        <input [(ngModel)]="formData.nome" name="nome" required
+                class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary) transition-colors"
+                placeholder="Ex: João Silva">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-(--dark) mb-2">Data de Nascimento</label>
+        <input type="date" [(ngModel)]="formData.nascimento" name="nascimento" required
+                class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-(--dark) mb-2">Gênero</label>
+        <select [(ngModel)]="formData.genero" name="genero" required
+                class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
+          <option value="">Selecione</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Feminino">Feminino</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="flex gap-4 pt-4">
+        <button type="button" (click)="close()"
+                class="flex-1 py-4 border border-gray-300 rounded-3xl font-medium hover:bg-gray-50 transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" [disabled]="!form.valid"
+                class="flex-1 py-4 bg-(--primary) text-white rounded-3xl font-semibold hover:brightness-105 transition-all">
+          Salvar Criança
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

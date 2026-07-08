@@ -1,0 +1,34 @@
+<div class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" (click)="onBackdropClick($event)">
+      <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full" (click)="$event.stopPropagation()">
+        <div class="p-8">
+          <h2 class="text-2xl font-bold text-(--dark)">Registrar Aplicação</h2>
+          
+          <form (ngSubmit)="onConfirm()" class="mt-6 space-y-6">
+            <div>
+              <label class="block text-sm font-medium mb-2">Data da Aplicação</label>
+              <input type="date" [(ngModel)]="formData.data" name="data" 
+                     class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:border-(--primary)">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Lote / Fabricante (opcional)</label>
+              <input [(ngModel)]="formData.lote" name="lote"
+                     class="w-full px-5 py-4 border border-gray-200 rounded-3xl">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-2">Observações (opcional)</label>
+              <textarea [(ngModel)]="formData.observacoes" name="observacoes" rows="3"
+                        class="w-full px-5 py-4 border border-gray-200 rounded-3xl resize-y"></textarea>
+            </div>
+
+            <div class="flex gap-4 pt-4">
+              <button type="button" (click)="close()" 
+                      class="flex-1 py-4 border border-gray-300 rounded-3xl">Cancelar</button>
+              <button type="submit" 
+                      class="flex-1 py-4 bg-(--primary) text-white rounded-3xl font-semibold">Confirmar Aplicação</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>

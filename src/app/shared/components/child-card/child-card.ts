@@ -12,7 +12,7 @@ import { Child, VaccinationStatus } from '../../models/child.model';
   styleUrl: './child-card.css',
 })
 export class ChildCard {
-@Input({ required: true }) child!: Child;
+  @Input({ required: true }) child!: Child;
 
   getProgressBarClass(): string {
     switch (this.child.status) {
