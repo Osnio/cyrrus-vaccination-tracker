@@ -18,12 +18,22 @@
   }
 }
 
-/* Filtros */
-button {
+
+.filter-button {
   background: #f5f0e6;
   color: var(--dark);
   border: none;
   transition: all 0.2s ease;
+}
+
+.filter-button.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(171, 194, 112, 0.3);
+}
+
+.filter-button:hover:not(.active) {
+  background: #ede6d9;
 }
 
 button.active {
@@ -42,4 +52,44 @@ button:hover:not(.active) {
   padding: 4rem 1rem;
   color: var(--muted-foreground);
   font-size: 1.1rem;
+}
+
+.add-child-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding: .85rem 1.5rem;
+
+  width: max-content;
+  background: var(--primary);
+  color: white;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    background-color .35s ease,
+    transform .25s ease,
+    box-shadow .35s ease;
+  
+}
+
+
+
+.add-child-btn:hover {
+  background: var(--dark) !important;
+  transform: translateY(-3px);
+}
+
+.add-child-btn:active {
+  transform: scale(.97);
+}
+
+.add-child-btn i {
+  transition: transform .3s ease;
+}
+
+.add-child-btn:hover i {
+  transform: rotate(90deg);
 }

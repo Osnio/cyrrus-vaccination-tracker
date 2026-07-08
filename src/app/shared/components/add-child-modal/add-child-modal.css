@@ -1,0 +1,10 @@
+button:hover {
+  color: snow;
+  background: var(--dark) !important;
+  transform: translateY(-3px);
+
+  transition:
+    background-color .35s ease,
+    transform .25s ease,
+    box-shadow .35s ease;
+}

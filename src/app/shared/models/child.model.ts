@@ -9,4 +9,5 @@ export interface Child {
   applied: number;
   pending: number;
   overdue: number;
+  photoUrl?: string;
 }

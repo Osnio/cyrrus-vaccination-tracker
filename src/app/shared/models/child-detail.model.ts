@@ -22,6 +22,7 @@ export interface ChildDetailData {
     total: number;
   };
   vacinas: Vaccine[];
+  photoUrl?: string;
 }
 
 export interface Metric {

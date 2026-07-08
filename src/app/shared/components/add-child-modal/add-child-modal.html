@@ -1,43 +1,101 @@
 <div class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" (click)="onBackdropClick($event)">
-  <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden" (click)="$event.stopPropagation()">
-    <div class="px-8 pt-8 pb-6">
+  <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden" (click)="$event.stopPropagation()">
+    
+    <!-- Cabeçalho -->
+    <div class="px-8 pt-8 pb-6 border-b border-gray-100">
       <h2 class="text-2xl font-bold text-(--dark)">Cadastrar Nova Criança</h2>
-      <p class="text-gray-500 mt-1">Adicione um novo membro à família</p>
+      <p class="text-gray-500 mt-1 text-sm">Os dados abaixo são obrigatórios. O calendário vacinal será gerado automaticamente de acordo com a idade da criança.</p>
     </div>
 
-    <form #form="ngForm" (ngSubmit)="onSubmit()" class="px-8 pb-8 space-y-6">
+    <form #form="ngForm" (ngSubmit)="onSubmit()" class="px-8 py-5 space-y-8">
+      
+      <!-- Seção de Imagem / Avatar -->
       <div>
-        <label class="block text-sm font-medium text-(--dark) mb-2">Nome Completo</label>
-        <input [(ngModel)]="formData.nome" name="nome" required
-                class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary) transition-colors"
-                placeholder="Ex: João Silva">
+        <label class="block text-sm font-medium text-(--dark) mb-3">Foto da Criança</label>
+        
+        <aside>
+          <div class="flex items-center gap-6">
+            <!-- Preview -->
+<!-- Preview -->
+<div class="w-24 h-24 rounded-3xl overflow-hidden border-4 border-white shadow-md shrink-0 relative">
+  <!-- Loading -->
+  <div *ngIf="isImageLoading" 
+       class="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
+    <div class="w-8 h-8 border-4 border-(--primary) border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
+  <!-- Imagem -->
+  <img *ngIf="imagePreview && !isImageLoading" 
+       [src]="imagePreview" 
+       class="w-full h-full object-cover">
+
+  <!-- Iniciais -->
+  <div *ngIf="!imagePreview && !isImageLoading" 
+       class="w-full h-full bg-(--primary) flex items-center justify-center text-4xl font-bold text-(--dark)">
+    {{ getInitials() }}
+  </div>
+</div>
+  
+            <div>
+              <label for="photoUpload" 
+                     class="cursor-pointer inline-flex items-center gap-2 px-5 py-3 bg-gray-100 hover:bg-gray-200 rounded-3xl text-sm font-medium transition-colors">
+                <i class="bi bi-camera"></i>
+                Escolher Foto
+              </label>
+              <input type="file" 
+                     id="photoUpload" 
+                     accept="image/*" 
+                     (change)="onFileSelected($event)"
+                     class="hidden">
+              
+              <p class="text-xs text-gray-500 mt-2"> PNG, JPG ou JPEG (máx. 5MB) <br> Foto (opcional) </p>
+              <button *ngIf="imagePreview" type="button" (click)="removeImage()"
+                      class="text-red-500 text-xs mt-2 hover:underline cursor-pointer">Remover foto</button>
+            </div>
+          </div>
+
+        </aside>
+      </div> 
+
+      <!-- Nome Completo -->
+<!-- Nome Completo -->
+<div>
+  <label class="block text-sm font-medium text-(--dark) mb-2">Nome Completo</label>
+  <input [(ngModel)]="formData.nome" 
+         name="nome" 
+         required
+         class="w-full px-5 py-3 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)"
+         placeholder="Ex: Helena Martins">
+</div>
+
+      <!-- Data e Gênero -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-sm font-medium text-(--dark) mb-2">Data de Nascimento</label>
+          <input type="date" [(ngModel)]="formData.nascimento" name="nascimento" required
+                 class="w-full cursor-pointer px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-(--dark) mb-2">Gênero</label>
+          <select [(ngModel)]="formData.genero" name="genero" required
+                  class="w-full px-5 py-4 border cursor-pointer border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
+            <option class="cursor-pointer" value="">Selecione</option>
+            <option class="cursor-pointer" value="Masculino">Masculino</option>
+            <option class="cursor-pointer" value="Feminino">Feminino</option>
+          </select>
+        </div>
       </div>
 
-      <div>
-        <label class="block text-sm font-medium text-(--dark) mb-2">Data de Nascimento</label>
-        <input type="date" [(ngModel)]="formData.nascimento" name="nascimento" required
-                class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-(--dark) mb-2">Gênero</label>
-        <select [(ngModel)]="formData.genero" name="genero" required
-                class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
-          <option value="">Selecione</option>
-          <option value="Masculino">Masculino</option>
-          <option value="Feminino">Feminino</option>
-          <option value="Outro">Outro</option>
-        </select>
-      </div>
-
-      <div class="flex gap-4 pt-4">
+      <!-- Botões -->
+      <div class="flex gap-4 pt-1">
         <button type="button" (click)="close()"
-                class="flex-1 py-4 border border-gray-300 rounded-3xl font-medium hover:bg-gray-50 transition-colors">
+                class="flex-1 cursor-pointer py-3 text-(--dark) border border-gray-300 rounded-3xl font-medium hover:bg-gray-50">
           Cancelar
         </button>
-        <button type="submit" [disabled]="!form.valid"
-                class="flex-1 py-4 bg-(--primary) text-white rounded-3xl font-semibold hover:brightness-105 transition-all">
-          Salvar Criança
+        <button type="submit" [disabled]="!isFormValid()"
+                class="flex-1 cursor-pointer py-3 bg-(--primary) text-white font-semibold rounded-3xl hover:brightness-105 transition-all">
+          Cadastrar Criança
         </button>
       </div>
     </form>

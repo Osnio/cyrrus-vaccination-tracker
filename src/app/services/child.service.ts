@@ -23,7 +23,14 @@ export class ChildService {
     return this.childDetailsSubject.value.find(c => c.id === id);
   }
 
-  addChild(newChildData: { nome: string; nascimento: string; genero: string; idade?: string }): ChildDetailData {
+  addChild(newChildData: { 
+    nome: string; 
+    nascimento: string; 
+    genero: string; 
+    idade?: string;
+    photoUrl?: string;
+  }): ChildDetailData {
+    
     const maxId = Math.max(0, ...this.childDetailsSubject.value.map(c => c.id));
     const id = maxId + 1;
 
@@ -41,7 +48,8 @@ export class ChildService {
         atrasadas: 0,
         total: 11
       },
-      vacinas: [] // Em produção: carregar calendário base
+      vacinas: [],
+      photoUrl: newChildData.photoUrl   // ← Adicionado aqui também
     };
 
     const childList: Child = {
@@ -52,7 +60,8 @@ export class ChildService {
       progress: 0,
       applied: 0,
       pending: 11,
-      overdue: 0
+      overdue: 0,
+      photoUrl: newChildData.photoUrl
     };
 
     this.childrenSubject.next([...this.childrenSubject.value, childList]);
@@ -61,9 +70,8 @@ export class ChildService {
     return childDetail;
   }
 
-  // registerVaccineApplication e addExtraVaccine mantidos (sem alterações relevantes)
+  // ====================== MÉTODOS EXISTENTES (sem alteração) ======================
   registerVaccineApplication(childId: number, vaccineIndex: number, applicationDate: string): boolean {
-    // ... (mesmo código anterior, sem mudança)
     const details = this.childDetailsSubject.value;
     const childIndex = details.findIndex(c => c.id === childId);
     if (childIndex === -1) return false;
@@ -93,6 +101,7 @@ export class ChildService {
     this.syncMainList(child);
     return true;
   }
+
   addExtraVaccine(childId: number, newVaccine: Omit<Vaccine, 'status'>): boolean {
     const details = this.childDetailsSubject.value;
     const childIndex = details.findIndex(c => c.id === childId);
@@ -101,7 +110,6 @@ export class ChildService {
     const child = { ...details[childIndex] };
     child.vacinas = [...child.vacinas, { ...newVaccine, status: 'Próxima' as const }];
 
-    // Recalcula contadores
     const aplicadas = child.vacinas.filter(v => v.status === 'Aplicada').length;
     const atrasadas = child.vacinas.filter(v => v.status === 'Atrasada').length;
     const pendentes = child.vacinas.length - aplicadas - atrasadas;
@@ -136,9 +144,5 @@ export class ChildService {
       children[childIndex] = updated;
       this.childrenSubject.next([...children]);
     }
-  }
-
-  private calculateAge(): string {
-    return 'Nova criança';
   }
 }

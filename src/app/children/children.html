@@ -1,15 +1,17 @@
-<main class="max-w-7xl mx-auto">
+<main class="max-w-7xl mx-auto flex flex-col">
   <aside class="mb-8">
-    <div class="flex items-center justify-between mb-6">
-    <app-page-header 
-      title="Crianças" 
-      subtitle="5 crianças cadastradas na sua família."
-    />
-    <button (click)="openAddModal()" 
-      class="px-6 py-3 bg-(--primary) text-white rounded-3xl font-semibold flex items-center gap-2 hover:brightness-105">
-      <i class="bi bi-plus-lg"></i> Adicionar Criança
-    </button>
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+      <app-page-header
+        title="Crianças"
+        subtitle="5 crianças cadastradas na sua família."
+      />
 
+      <button
+        (click)="openAddModal()"
+        class="add-child-btn group">
+        <i class="bi bi-plus-lg"></i>
+        <span>Adicionar Criança</span>
+      </button>
     </div>
     
 

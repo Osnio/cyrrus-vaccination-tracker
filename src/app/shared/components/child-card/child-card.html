@@ -1,20 +1,27 @@
-<a [routerLink]="['/children', child.id]" class="block hover:scale-[1.02] transition-transform duration-200">  <div class="card">
+<a [routerLink]="['/children', child.id]" class="block hover:scale-[1.02] transition-transform duration-200">
+  <div class="card">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="profile">
-      <div class="avatar">
-        <span>{{ child.name.charAt(0) }}</span>
+    <!-- HEADER -->
+    <div class="header">
+      <div class="profile">
+        <div class="avatar">
+          <!-- NOVA LÓGICA DE IMAGEM -->
+          <img *ngIf="child.photoUrl" 
+               [src]="child.photoUrl" 
+               alt="Foto de {{ child.name }}"
+               class="w-full h-full object-cover">
+
+          <span *ngIf="!child.photoUrl">{{ getInitials() }}</span>
+        </div>
+
+        <div class="info">
+          <h3>{{ child.name }}</h3>
+          <p>{{ child.age }}</p>
+        </div>
       </div>
 
-      <div class="info">
-        <h3>{{ child.name }}</h3>
-        <p>{{ child.age }}</p>
-      </div>
+      <span class="chevron">›</span>
     </div>
-
-    <span class="chevron">›</span>
-  </div>
 
     <!-- STATUS -->
     <div class="status" [ngClass]="getStatusClass()">
