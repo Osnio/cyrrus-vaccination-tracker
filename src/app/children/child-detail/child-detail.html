@@ -32,7 +32,7 @@
             {{ child.nome.charAt(0) }}
           </div>
         </div>
-      </div>
+      </div> 
 
       <!-- Informações do Perfil -->
       <div class="flex-1 min-w-0 pt-2">
@@ -45,10 +45,18 @@
                 <i class="bi bi-cake2"></i>
                 <span>{{ child.nascimento }}</span>
               </div>
-              <div class="flex items-center gap-2">
-                <i class="bi bi-person"></i>
-                <span>{{ child.idade }}</span>
+              <div class="flex items-center gap-3 ">
+                <span class="text-sm text-gray-500">{{ child.idade }}</span>
+                <span *ngIf="isNew()" 
+                      class="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-3xl">
+                  <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                  Novo
+                </span>
               </div>
+
+              <p class="text-xs text-gray-400 mt-1">
+                Cadastrado em {{ formatCreatedDate(child.createdAt) }}
+              </p>
               <div class="flex items-center gap-2">
                 <i class="bi bi-gender-ambiguous"></i>
                 <span>{{ child.genero }}</span>

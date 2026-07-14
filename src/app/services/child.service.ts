@@ -33,12 +33,15 @@ export class ChildService {
     
     const maxId = Math.max(0, ...this.childDetailsSubject.value.map(c => c.id));
     const id = maxId + 1;
+    const createdAt = new Date().toISOString();   // ← Importante
+
+    const idadeCalculada = this.calculateAge(newChildData.nascimento);
 
     const childDetail: ChildDetailData = {
       id,
       nome: newChildData.nome,
       nascimento: newChildData.nascimento,
-      idade: newChildData.idade || 'Nova criança',
+      idade: idadeCalculada,
       genero: newChildData.genero,
       statusGeral: 'Próxima vacinação',
       progresso: 0,
@@ -49,25 +52,37 @@ export class ChildService {
         total: 11
       },
       vacinas: [],
-      photoUrl: newChildData.photoUrl   // ← Adicionado aqui também
+      photoUrl: newChildData.photoUrl,
+      createdAt,                    // ← Adicionado
     };
 
     const childList: Child = {
       id: id.toString(),
       name: newChildData.nome,
-      age: newChildData.idade || 'Nova criança',
+      age: idadeCalculada,
       status: 'Próxima vacinação',
       progress: 0,
       applied: 0,
       pending: 11,
       overdue: 0,
-      photoUrl: newChildData.photoUrl
+      photoUrl: newChildData.photoUrl,
+      createdAt,                    // ← Adicionado
     };
 
     this.childrenSubject.next([...this.childrenSubject.value, childList]);
     this.childDetailsSubject.next([...this.childDetailsSubject.value, childDetail]);
 
     return childDetail;
+  }
+
+  private calculateAge(birthDate: string): string {
+    if (!birthDate) return 'Nova criança';
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--;
+    return age === 0 ? 'Recém-nascido' : `${age} anos`;
   }
 
   // ====================== MÉTODOS EXISTENTES (sem alteração) ======================

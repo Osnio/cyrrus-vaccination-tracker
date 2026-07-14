@@ -5,6 +5,7 @@ import { ChildDetail } from './children/child-detail/child-detail';
 import { Vaccines } from './vaccines/vaccines';
 import { Campaigns } from './campaigns/campaigns';
 import { ReportsChildren } from './reports-children/reports-children';
+import {Activities} from './activities/activities';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'vaccines', component: Vaccines },
   { path: 'campaigns', component: Campaigns },
   { path: 'reports', component: ReportsChildren },
+  { path: 'activities', component: Activities },
   { path: '**', redirectTo: '/dashboard' }
 
 

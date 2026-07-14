@@ -10,4 +10,6 @@ export interface Child {
   pending: number;
   overdue: number;
   photoUrl?: string;
+  createdAt: string; 
+  isNew?: boolean;
 }

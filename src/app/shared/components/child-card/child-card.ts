@@ -40,4 +40,27 @@ export class ChildCard {
       default: return '';
     }
   }
+  
+  isNew(): boolean {
+    if (!this.child?.createdAt) return false;
+    const created = new Date(this.child.createdAt);
+    const daysDiff = (Date.now() - created.getTime()) / (1000 * 3600 * 24);
+    return daysDiff <= 15;
+  }
+
+  formatCreatedDate(createdAt: string): string {
+    if (!createdAt) return '';
+
+    const date = new Date(createdAt);
+
+    return date.toLocaleDateString('pt-PT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
+  }
 }

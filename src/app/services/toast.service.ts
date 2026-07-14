@@ -14,7 +14,7 @@ export class ToastService {
     }
 
     const toast = document.createElement('div');
-    const bg = type === 'success' ? 'bg-(--primary)' : 'bg-red-500';
+    const bg = type === 'success' ? 'bg-(--dark)' : 'bg-red-500';
     
     toast.className = `px-6 py-4 rounded-3xl shadow-xl text-white flex items-center gap-3 min-w-[280px] ${bg} animate-slide-in`;
     toast.innerHTML = `

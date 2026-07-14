@@ -9,7 +9,9 @@ export const CHILDREN_DATA: Child[] = [
     progress: 91, 
     applied: 10, 
     pending: 1, 
-    overdue: 0 
+    overdue: 0 ,
+    photoUrl: undefined,
+    createdAt: "2026-06-20T10:00:00.000Z"
   },
   { 
     id: '2', 
@@ -19,7 +21,8 @@ export const CHILDREN_DATA: Child[] = [
     progress: 73, 
     applied: 8, 
     pending: 3, 
-    overdue: 1 
+    overdue: 1 ,
+    createdAt: "2026-06-15T14:30:00.000Z"
   },
   { 
     id: '3', 
@@ -29,7 +32,9 @@ export const CHILDREN_DATA: Child[] = [
     progress: 63, 
     applied: 5, 
     pending: 3, 
-    overdue: 2 
+    overdue: 2 ,
+    createdAt: "2026-07-01T09:15:00.000Z"
+
   },
   { 
     id: '4', 
@@ -39,7 +44,8 @@ export const CHILDREN_DATA: Child[] = [
     progress: 100, 
     applied: 8, 
     pending: 0, 
-    overdue: 0 
+    overdue: 0 ,
+    createdAt: "2026-07-05T16:45:00.000Z"
   },
   { 
     id: '5', 
@@ -49,6 +55,7 @@ export const CHILDREN_DATA: Child[] = [
     progress: 80, 
     applied: 4, 
     pending: 1, 
-    overdue: 0 
+    overdue: 0 ,
+    createdAt: "2026-05-10T11:20:00.000Z"
   }
 ];

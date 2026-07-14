@@ -11,6 +11,7 @@ import { ToastService } from '../../../services/toast.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-child-modal.html',
+  host: { 'class': 'animate-in fade-in slide-in-from-bottom-4 duration-300' },
   styleUrl: './add-child-modal.css',
 })
 export class AddChildModal {
@@ -74,11 +75,11 @@ export class AddChildModal {
     const newChild = {
       ...this.formData,
       name: this.formData.nome,
-      photoUrl: this.selectedFile ? URL.createObjectURL(this.selectedFile) : undefined
+      photoUrl: this.selectedFile ? URL.createObjectURL(this.selectedFile) : undefined,
+      createdAt: new Date().toISOString()
     };
 
     this.childService.addChild(newChild);
-    
     this.toastService.show('Criança cadastrada com sucesso!');
     this.close();
   }

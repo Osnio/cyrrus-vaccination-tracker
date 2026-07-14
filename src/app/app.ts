@@ -34,6 +34,7 @@ export class App implements OnInit {
     { to: '/vaccines', label: 'Vacinas', icon: 'bi bi-eyedropper' },
     { to: '/campaigns', label: 'Campanhas', icon: 'bi bi-megaphone' },
     { to: '/reports', label: 'Relatórios', icon: 'bi bi-pie-chart-fill' },
+    { to: '/activities', label: 'Atividades', icon: 'bi bi-clock-history' },
   ];
 
 

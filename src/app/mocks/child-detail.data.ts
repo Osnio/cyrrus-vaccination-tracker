@@ -22,7 +22,8 @@ export const CHILD_DETAIL_DATA: ChildDetailData[] = [
       { "nome": "Pentavalente", "dose": "Dose 1/3", "desc": "Combina proteção contra Difteria, Tétano, Coqueluche, Hib e Hepatite B.", "data": "04/10/2022", "recom": "2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "Hepatite B", "dose": "Dose 1/4", "desc": "Imunização contra o vírus da Hepatite B, prevenindo cirrose e câncer de fígado.", "data": "05/08/2022", "recom": "Ao nascer, 2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "BCG", "dose": "Dose 1/1", "desc": "Protege contra formas graves da tuberculose, como a meningite tuberculosa.", "data": "05/08/2022", "recom": "Ao nascer", "status": "Aplicada" }
-    ]
+    ],
+    createdAt: "2026-06-20T10:00:00.000Z"
   },
   {
     "id": 2,
@@ -45,7 +46,8 @@ export const CHILD_DETAIL_DATA: ChildDetailData[] = [
       { "nome": "Pentavalente", "dose": "Dose 1/3", "desc": "Combina proteção contra Difteria, Tétano, Coqueluche, Hib e Hepatite B.", "data": "15/05/2024", "recom": "2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "Hepatite B", "dose": "Dose 1/4", "desc": "Imunização contra o vírus da Hepatite B, prevenindo cirrose e câncer de fígado.", "data": "13/03/2024", "recom": "Ao nascer, 2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "BCG", "dose": "Dose 1/1", "desc": "Protege contra formas graves da tuberculose, como a meningite tuberculosa.", "data": "13/03/2024", "recom": "Ao nascer", "status": "Aplicada" }
-    ]
+    ],
+    createdAt: "2026-06-15T14:30:00.000Z"
   },
   {
     "id": 3,
@@ -65,7 +67,8 @@ export const CHILD_DETAIL_DATA: ChildDetailData[] = [
       { "nome": "Pentavalente", "dose": "Dose 2/3", "desc": "Combina proteção contra Difteria, Tétano, Coqueluche, Hib e Hepatite B.", "data": "21/03/2021", "recom": "2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "Pentavalente", "dose": "Dose 1/3", "desc": "Combina proteção contra Difteria, Tétano, Coqueluche, Hib e Hepatite B.", "data": "21/01/2021", "recom": "2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "BCG", "dose": "Dose 1/1", "desc": "Protege contra formas graves da tuberculose, como a meningite tuberculosa.", "data": "22/11/2020", "recom": "Ao nascer", "status": "Aplicada" }
-    ]
+    ],
+    createdAt: "2026-07-01T09:15:00.000Z"
   },
   {
     "id": 4,
@@ -85,7 +88,8 @@ export const CHILD_DETAIL_DATA: ChildDetailData[] = [
       { "nome": "Pentavalente", "dose": "Dose 2/3", "desc": "Combina proteção contra Difteria, Tétano, Coqueluche, Hib e Hepatite B.", "data": "30/09/2018", "recom": "2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "Pentavalente", "dose": "Dose 1/3", "desc": "Combina proteção contra Difteria, Tétano, Coqueluche, Hib e Hepatite B.", "data": "30/07/2018", "recom": "2, 4 e 6 meses", "status": "Aplicada" },
       { "nome": "BCG", "dose": "Dose 1/1", "desc": "Protege contra formas graves da tuberculose, como a meningite tuberculosa.", "data": "01/06/2018", "recom": "Ao nascer", "status": "Aplicada" }
-    ]
+    ],
+    createdAt: "2026-07-05T16:45:00.000Z"
   },
   {
     "id": 5,
@@ -102,6 +106,7 @@ export const CHILD_DETAIL_DATA: ChildDetailData[] = [
       { "nome": "Tríplice Viral", "dose": "Dose 1/2", "desc": "Protege contra Sarampo, Caxumba e Rubéola.", "data": "09/01/2017", "recom": "12 meses", "status": "Aplicada" },
       { "nome": "Febre Amarela", "dose": "Dose 1/1", "desc": "Imunização contra o vírus da febre amarela, recomendada em todo território nacional.", "data": "09/10/2016", "recom": "9 meses", "status": "Aplicada" },
       { "nome": "BCG", "dose": "Dose 1/1", "desc": "Protege contra formas graves da tuberculose, como a meningite tuberculosa.", "data": "10/01/2016", "recom": "Ao nascer", "status": "Aplicada" }
-    ]
+    ],
+    createdAt: "2026-05-10T11:20:00.000Z"
   }
 ];

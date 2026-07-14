@@ -1,22 +1,31 @@
 <a [routerLink]="['/children', child.id]" class="block hover:scale-[1.02] transition-transform duration-200">
-  <div class="card">
-
+  <aside class="card">
     <!-- HEADER -->
     <div class="header">
       <div class="profile">
         <div class="avatar">
-          <!-- NOVA LÓGICA DE IMAGEM -->
+          <!-- Imagem ou Inicial -->
           <img *ngIf="child.photoUrl" 
-               [src]="child.photoUrl" 
-               alt="Foto de {{ child.name }}"
-               class="w-full h-full object-cover">
+              [src]="child.photoUrl" 
+              alt="Foto de {{ child.name }}"
+              class="w-full h-full object-cover">
 
           <span *ngIf="!child.photoUrl">{{ getInitials() }}</span>
+
+          <!-- Selo NOVO -->
+          <span *ngIf="isNew()" 
+                class="absolute -top-8 -right-77.5 bg-(--dark) text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1 z-10">
+            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+            NOVO
+          </span>
         </div>
 
         <div class="info">
           <h3>{{ child.name }}</h3>
           <p>{{ child.age }}</p>
+          <span  class="text-xs text-gray-400 font-normal">
+              {{ formatCreatedDate(child.createdAt) }}
+            </span>
         </div>
       </div>
 
@@ -57,5 +66,5 @@
         <span>ATRASADAS</span>
       </div>
     </div>
-  </div>
+  </aside>
 </a>
