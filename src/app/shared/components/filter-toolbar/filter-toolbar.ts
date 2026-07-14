@@ -20,6 +20,12 @@ export class FilterToolbar {
   @Input() filters: any[] = [];
   @Input() sortOptions: any[] = [];
 
+  // Novos inputs para controlar visibilidade
+  @Input() showStatusFilter: boolean = true;
+  @Input() showSortFilter: boolean = true;
+  @Input() showDateFilter: boolean = true;
+  @Input() showClearButton: boolean = true;
+
   @Output() searchChange = new EventEmitter<string>();
   @Output() filterChange = new EventEmitter<string>();
   @Output() sortChange = new EventEmitter<string>();
@@ -34,7 +40,7 @@ export class FilterToolbar {
   get statusOptions() {
     return this.filters;
   }
-  
+
   onFilterChange(value: string) {
     this.filterChange.emit(value);
   }

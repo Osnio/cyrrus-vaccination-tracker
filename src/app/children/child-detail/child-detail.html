@@ -128,16 +128,22 @@
 
 
   <div class="mb-8">
-    <app-filter-toolbar
-      [searchTerm]="searchTerm"
-      [activeFilter]="activeFilter"
-      [filters]="filters"
-      (searchChange)="onSearchChange($event)"
-      (filterChange)="setFilter($event)">
-    </app-filter-toolbar>
+<app-filter-toolbar
+    [searchTerm]="searchTerm"
+    [activeFilter]="activeFilter"
+    [filters]="filters"
+    
+    [showStatusFilter]="true"      
+    [showSortFilter]="false"       
+    [showDateFilter]="true"       
+    [showClearButton]="true"      
+    
+    (searchChange)="onSearchChange($event)"
+    (filterChange)="setFilter($event)">
+  </app-filter-toolbar>
   </div>
 
-<h3 class="text-xl font-semibold text-(--dark) mb-6">Linha do tempo vacinal</h3>
+  <h3 class="text-xl font-semibold text-(--dark) mb-6">Linha do tempo vacinal</h3>
 
   <div class="relative pl-8 space-y-8 before:absolute before:left-3.75 before:top-3 before:bottom-3 before:w-0.75 before:bg-gray-200">
     <div *ngFor="let vacina of filteredVaccines; let i = index" 
