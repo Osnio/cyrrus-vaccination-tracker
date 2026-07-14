@@ -71,6 +71,11 @@
             </div>
           </div>
 
+          <button (click)="editChild()"
+            class="flex cursor-pointer items-center gap-2 px-6 py-3 bg-white border border-gray-200 hover:border-(--accent) rounded-3xl text-(--dark) hover:bg-gray-50 transition-all font-medium">
+            <i class="bi bi-pencil"></i> Editar
+          </button>
+
         </div>
       </div>
 
@@ -197,4 +202,10 @@
     [childId]="child.id"
     (closed)="onAddVaccineModalClosed()">
   </app-add-extra-vaccine-modal>
+
+  <app-add-child-modal 
+    *ngIf="showAddModal || showEditModal" 
+    [childToEdit]="showEditModal ? child : null"
+    (closed)="closeModal()">
+  </app-add-child-modal>
 </main>

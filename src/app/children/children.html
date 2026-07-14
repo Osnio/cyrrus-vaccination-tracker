@@ -16,11 +16,16 @@
       [searchTerm]="searchTerm"
       [activeFilter]="activeFilter"
       [sortBy]="sortBy"
+      [startDate]="startDate"
+      [endDate]="endDate"
       [filters]="filters"
       [sortOptions]="sortOptions"
       (searchChange)="onSearchChange($event)"
       (filterChange)="setFilter($event)"
-      (sortChange)="onSortChange($event)">
+      (sortChange)="onSortChange($event)"
+      (startDateChange)="onStartDateChange($event)"
+      (endDateChange)="onEndDateChange($event)"
+      (clearFiltersEvent)="clearFilters()">
     </app-filter-toolbar>
   </aside>
 

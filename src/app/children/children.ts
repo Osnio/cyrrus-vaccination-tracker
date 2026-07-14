@@ -27,12 +27,26 @@ export class Children {
   currentPage = 1;
   showAddModal = false;
 
+  startDate: string = '';
+  endDate: string = '';
+
   searchTerm: string = '';
   activeFilter: string = 'all';
-  sortBy: 'name' | 'progress' | 'age' = 'name';
+  sortBy: 'name' | 'recent' | 'age' = 'recent';   // Default: mais recentes
 
-  filters = [ /* ... seu array */ ];
-  sortOptions = [ /* ... seu array */ ];
+  // === Filtros e Ordenação ===
+  filters = [
+    { label: 'Todos', value: 'all' },
+    { label: 'Em dia', value: 'Em dia' },
+    { label: 'Próximos', value: 'Próxima vacinação' },
+    { label: 'Atrasados', value: 'Vacina atrasada' }
+  ];
+
+  sortOptions = [
+    { label: 'Mais recentes', value: 'recent' },
+    { label: 'Nome (A-Z)', value: 'name' },
+    { label: 'Idade', value: 'age' }
+  ];
 
   constructor(private childService: ChildService) {
     this.childService.children$.subscribe(children => {
@@ -59,45 +73,64 @@ export class Children {
 
   get pageNumbers(): number[] {
     const pages: number[] = [];
-    const maxVisible = 5; // máximo de números de página visíveis
+    const maxVisible = 5;
 
     let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
     let end = Math.min(this.totalPages, start + maxVisible - 1);
+    if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
 
-    if (end - start < maxVisible - 1) {
-      start = Math.max(1, end - maxVisible + 1);
-    }
-
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
+    for (let i = start; i <= end; i++) pages.push(i);
     return pages;
   }
 
   applyFilters(): void {
     let result = [...this.children];
 
-    // Filtro por texto
-    if (this.searchTerm) {
-      const term = this.searchTerm.toLowerCase();
+    // 1. Busca por nome
+    if (this.searchTerm?.trim()) {
+      const term = this.searchTerm.toLowerCase().trim();
       result = result.filter(child => child.name.toLowerCase().includes(term));
     }
 
-    // Filtro por status
+    // 2. Filtro por status
     if (this.activeFilter !== 'all') {
       result = result.filter(child => child.status === this.activeFilter);
     }
 
-    // Ordenação (mais recentes primeiro por padrão)
+    // 3. Filtro por data de cadastro (CORRIGIDO)
+    if (this.startDate) {
+      const start = new Date(this.startDate);
+      start.setHours(0, 0, 0, 0); // Início do dia
+      result = result.filter(child => new Date(child.createdAt) >= start);
+    }
+
+    if (this.endDate) {
+      const end = new Date(this.endDate);
+      end.setHours(23, 59, 59, 999); // Fim do dia
+      result = result.filter(child => new Date(child.createdAt) <= end);
+    }
+
+    // 4. Ordenação
     result.sort((a, b) => {
-      if (this.sortBy === 'name') return a.name.localeCompare(b.name);
-      if (this.sortBy === 'progress') return b.progress - a.progress;
-      if (this.sortBy === 'age') return parseInt(b.age) - parseInt(a.age);
-      return 0;
+      switch (this.sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+
+        case 'recent':
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+
+        case 'age':
+          const ageA = parseInt(a.age) || 0;
+          const ageB = parseInt(b.age) || 0;
+          return ageB - ageA;
+
+        default:
+          return 0;
+      }
     });
 
     this.filteredChildren = result;
-    this.currentPage = 1; // Reset para primeira página ao filtrar
+    this.currentPage = 1;
     this.updatePagedChildren();
   }
 
@@ -107,40 +140,29 @@ export class Children {
     this.pagedChildren = this.filteredChildren.slice(start, end);
   }
 
-  // ==================== Paginação ====================
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-    this.updatePagedChildren();
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagedChildren();
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.updatePagedChildren();
-    }
-  }
-
-  // ==================== Filtros ====================
-  setFilter(filter: string): void {
-    this.activeFilter = filter;
-    this.applyFilters();
-  }
-
+  // ==================== Eventos ====================
   onSearchChange(term: string): void {
     this.searchTerm = term;
     this.applyFilters();
   }
 
+  setFilter(filter: string): void {
+    this.activeFilter = filter;
+    this.applyFilters();
+  }
+
+  onStartDateChange(date: string): void {
+    this.startDate = date;
+    this.applyFilters();
+  }
+
+  onEndDateChange(date: string): void {
+    this.endDate = date;
+    this.applyFilters();
+  }
+
   onSortChange(value: string): void {
-    this.sortBy = value as 'name' | 'progress' | 'age';
+    this.sortBy = value as 'name' | 'recent' | 'age';
     this.applyFilters();
   }
 
@@ -150,6 +172,29 @@ export class Children {
 
   closeAddModal() {
     this.showAddModal = false;
-    // applyFilters já é chamado no subscribe do service
+  }
+
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.activeFilter = 'all';
+    this.sortBy = 'recent';
+    this.startDate = '';
+    this.endDate = '';
+    this.applyFilters();
+  }
+
+  // Paginação
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagedChildren();
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) this.goToPage(this.currentPage - 1);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) this.goToPage(this.currentPage + 1);
   }
 }

@@ -13,27 +13,45 @@ import { CustomSelect } from "../custom-select/custom-select";
 export class FilterToolbar {
   @Input() searchTerm: string = '';
   @Input() activeFilter: string = 'all';
-  @Input() sortBy: string = 'name';
+  @Input() sortBy: string = 'recent';
+  @Input() startDate: string = '';
+  @Input() endDate: string = '';
 
-  @Input() filters: any[] = [];           // Ex: [{label: 'Todos', value: 'all'}, ...]
-  @Input() sortOptions: any[] = [];       // Opcional
+  @Input() filters: any[] = [];
+  @Input() sortOptions: any[] = [];
 
   @Output() searchChange = new EventEmitter<string>();
   @Output() filterChange = new EventEmitter<string>();
   @Output() sortChange = new EventEmitter<string>();
+  @Output() startDateChange = new EventEmitter<string>();
+  @Output() endDateChange = new EventEmitter<string>();
+  @Output() clearFiltersEvent = new EventEmitter<void>();
 
   onSearchChange(term: string) {
-    this.searchTerm = term;
     this.searchChange.emit(term);
   }
 
+  get statusOptions() {
+    return this.filters;
+  }
+  
   onFilterChange(value: string) {
-    this.activeFilter = value;
     this.filterChange.emit(value);
   }
 
   onSortChange(value: string) {
-    this.sortBy = value;
     this.sortChange.emit(value);
+  }
+
+  onStartDateChange(date: string) {
+    this.startDateChange.emit(date);
+  }
+
+  onEndDateChange(date: string) {
+    this.endDateChange.emit(date);
+  }
+
+  clearFilters() {
+    this.clearFiltersEvent.emit();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -14,8 +14,12 @@ import { ToastService } from '../../../services/toast.service';
   host: { 'class': 'animate-in fade-in slide-in-from-bottom-4 duration-300' },
   styleUrl: './add-child-modal.css',
 })
-export class AddChildModal {
+export class AddChildModal implements OnChanges {
   @Output() closed = new EventEmitter<void>();
+  @Input() childToEdit: any = null;
+
+  isEditMode = false;
+  editingId: number | null = null;
 
   formData = {
     nome: '',
@@ -33,6 +37,27 @@ export class AddChildModal {
     private toastService: ToastService,
     private sanitizer: DomSanitizer
   ) {}
+
+ngOnChanges(changes: SimpleChanges) {
+    if (changes['childToEdit'] && this.childToEdit) {
+      this.isEditMode = true;
+      this.editingId = this.childToEdit.id;
+
+      this.formData = {
+        nome: this.childToEdit.nome || this.childToEdit.name || '',
+        nascimento: this.childToEdit.nascimento || '',
+        genero: this.childToEdit.genero || '',
+        idade: this.childToEdit.idade || ''
+      };
+
+      if (this.childToEdit.photoUrl) {
+        this.imagePreview = this.sanitizer.bypassSecurityTrustUrl(this.childToEdit.photoUrl);
+      } else {
+        this.imagePreview = null;
+      }
+      this.selectedFile = null;
+    }
+  }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -72,15 +97,21 @@ export class AddChildModal {
   onSubmit() {
     if (!this.isFormValid()) return;
 
-    const newChild = {
+    const childData = {
       ...this.formData,
       name: this.formData.nome,
-      photoUrl: this.selectedFile ? URL.createObjectURL(this.selectedFile) : undefined,
-      createdAt: new Date().toISOString()
+      photoUrl: this.selectedFile ? URL.createObjectURL(this.selectedFile) : this.childToEdit?.photoUrl,
+      createdAt: this.isEditMode ? undefined : new Date().toISOString()
     };
 
-    this.childService.addChild(newChild);
-    this.toastService.show('Criança cadastrada com sucesso!');
+    if (this.isEditMode && this.editingId !== null) {
+      this.childService.updateChild(this.editingId, childData);
+      this.toastService.show('Criança atualizada com sucesso!');
+    } else {
+      this.childService.addChild(childData);
+      this.toastService.show('Criança cadastrada com sucesso!');
+    }
+
     this.close();
   }
 

@@ -1,6 +1,5 @@
 <a [routerLink]="['/children', child.id]" class="block hover:scale-[1.02] transition-transform duration-200">
   <aside class="card">
-    <!-- HEADER -->
     <div class="header">
       <div class="profile">
         <div class="avatar">
@@ -12,7 +11,6 @@
 
           <span *ngIf="!child.photoUrl">{{ getInitials() }}</span>
 
-          <!-- Selo NOVO -->
           <span *ngIf="isNew()" 
                 class="absolute -top-8 -right-77.5 bg-(--dark) text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1 z-10">
             <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>

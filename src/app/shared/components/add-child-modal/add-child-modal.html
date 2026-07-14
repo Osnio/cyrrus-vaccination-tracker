@@ -3,7 +3,9 @@
     
     <!-- Cabeçalho -->
     <div class="px-8 pt-8 pb-6 border-b border-gray-100">
-      <h2 class="text-2xl font-bold text-(--dark)">Cadastrar Nova Criança</h2>
+      <h2 class="text-2xl font-bold text-(--dark)">
+        {{ isEditMode ? 'Editar Criança' : 'Cadastrar Nova Criança' }}
+      </h2>
       <p class="text-gray-500 mt-1 text-sm">Os dados abaixo são obrigatórios. O calendário vacinal será gerado automaticamente de acordo com a idade da criança.</p>
     </div>
 
@@ -16,25 +18,24 @@
         <aside>
           <div class="flex items-center gap-6">
             <!-- Preview -->
-<!-- Preview -->
-<div class="w-24 h-24 rounded-3xl overflow-hidden border-4 border-white shadow-md shrink-0 relative">
-  <!-- Loading -->
-  <div *ngIf="isImageLoading" 
-       class="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
-    <div class="w-8 h-8 border-4 border-(--primary) border-t-transparent rounded-full animate-spin"></div>
-  </div>
+          <div class="w-24 h-24 rounded-3xl overflow-hidden border-4 border-white shadow-md shrink-0 relative">
+            <!-- Loading -->
+            <div *ngIf="isImageLoading" 
+                class="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
+              <div class="w-8 h-8 border-4 border-(--primary) border-t-transparent rounded-full animate-spin"></div>
+            </div>
 
-  <!-- Imagem -->
-  <img *ngIf="imagePreview && !isImageLoading" 
-       [src]="imagePreview" 
-       class="w-full h-full object-cover">
+            <!-- Imagem -->
+            <img *ngIf="imagePreview && !isImageLoading" 
+                [src]="imagePreview" 
+                class="w-full h-full object-cover">
 
-  <!-- Iniciais -->
-  <div *ngIf="!imagePreview && !isImageLoading" 
-       class="w-full h-full bg-(--primary) flex items-center justify-center text-4xl font-bold text-(--dark)">
-    {{ getInitials() }}
-  </div>
-</div>
+            <!-- Iniciais -->
+            <div *ngIf="!imagePreview && !isImageLoading" 
+                class="w-full h-full bg-(--primary) flex items-center justify-center text-4xl font-bold text-(--dark)">
+              {{ getInitials() }}
+            </div>
+          </div>
   
             <div>
               <label for="photoUpload" 
@@ -92,10 +93,13 @@
                 class="flex-1 cursor-pointer py-3 text-(--dark) border border-gray-300 rounded-3xl font-medium hover:bg-gray-50">
           Cancelar
         </button>
-        <button type="submit" [disabled]="!isFormValid()"
-                class="flex-1 cursor-pointer py-3 bg-(--primary) text-white font-semibold rounded-3xl hover:brightness-105 transition-all">
-          Cadastrar Criança
+
+        <button type="submit" [disabled]="!isFormValid()" class="flex-1 cursor-pointer py-3 bg-(--primary) text-white font-semibold rounded-3xl hover:brightness-105 transition-all">
+          {{ isEditMode ? 'Salvar Alterações' : 'Cadastrar Criança' }}
         </button>
+
+
+        
       </div>
     </form>
   </div>

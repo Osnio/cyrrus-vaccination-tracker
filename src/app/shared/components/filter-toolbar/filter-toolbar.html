@@ -1,9 +1,9 @@
-<div class="filter-toolbar bg-white rounded-3xl shadow-sm border border-gray-100 p-5">
+<main class="filter-toolbar bg-white rounded-3xl shadow-sm border border-gray-100 p-5">
 
-  <div class="flex flex-col lg:flex-row gap-4 items-stretch">
+  <section class="flex flex-col lg:flex-row gap-4 items-stretch">
 
-    <!-- Search -->
-    <div class="flex-1 relative">
+    <!-- Search - Maior espaço possível -->
+    <div class="flex-1 relative mt-5">
       <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
         <i class="bi bi-search"></i>
       </div>
@@ -15,24 +15,53 @@
         class="w-full bg-[#f8f4ed] border border-transparent focus:border-(--accent) pl-11 py-3.5 rounded-2xl text-sm focus:outline-none">
     </div>
 
-    <!-- Filtros de Status -->
-    <div class="flex flex-wrap gap-2">
-      <button *ngFor="let filter of filters" 
-              (click)="onFilterChange(filter.value)"
-              [class.active]="activeFilter === filter.value"
-              class="px-6 py-3 cursor-pointer rounded-3xl text-sm font-medium transition-all whitespace-nowrap">
-        {{ filter.label }}
-      </button>
-    </div>
-
-    <!-- Ordenação -->
-    <div *ngIf="sortOptions && sortOptions.length > 0" class="lg:min-w-55">
+    <!-- Status (agora em Select) -->
+    <div class="lg:w-52 mt-5">
       <app-custom-select
-        [options]="sortOptions"
-        [selectedValue]="sortBy"
-        (valueChange)="onSortChange($event)">
+        [options]="statusOptions"
+        [selectedValue]="activeFilter"
+        (valueChange)="onFilterChange($event)"
+        placeholder="Status">
       </app-custom-select>
     </div>
 
-  </div>
-</div>
+    <!-- Ordenação -->
+    <div class="lg:w-52 mt-5">
+      <app-custom-select
+        [options]="sortOptions"
+        [selectedValue]="sortBy"
+        (valueChange)="onSortChange($event)"
+        placeholder="Ordenar por">
+      </app-custom-select>
+    </div>
+
+    <!-- Data De - Até -->
+    <aside class="flex gap-3 items-end">
+      <div class="flex flex-col">
+        <span class="text-xs text-gray-500 mb-1">De</span>
+        <input type="date" 
+              [ngModel]="startDate" 
+              (ngModelChange)="onStartDateChange($event)"
+              class="bg-[#f8f4ed] cursor-pointer border border-transparent focus:border-(--accent) px-4 py-3.5 rounded-2xl text-sm focus:outline-none">
+      </div>
+
+      <div class="flex flex-col">
+        <span class="text-xs text-gray-500 mb-1">Até</span>
+        <input type="date" 
+              [ngModel]="endDate" 
+              (ngModelChange)="onEndDateChange($event)"
+              class="bg-[#f8f4ed] cursor-pointer border border-transparent focus:border-(--accent) px-4 py-3.5 rounded-2xl text-sm focus:outline-none">
+      </div>
+    </aside>
+
+    <div class="flex flex-col">
+      <span class="text-xs text-gray-500 mb-1" >Limpar</span>
+      <button (click)="clearFilters()"
+              class="px-6 py-3 text-red-600 hover:text-red-700 font-medium transition-colors flex items-center gap-2 whitespace-nowrap self-end lg:self-center">
+        <i class="bi-trash"></i>
+        Limpar
+      </button>
+    </div>
+
+  </section>
+</main>

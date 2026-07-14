@@ -13,6 +13,7 @@ import { ChildDetailData, Vaccine, Metric } from '../../shared/models/child-deta
 import { ChildService } from '../../services/child.service';
 import { ToastService } from '../../services/toast.service';
 import { AddExtraVaccineModal } from "../../shared/components/add-extra-vaccine-modal/add-extra-vaccine-modal";
+import { AddChildModal } from "../../shared/components/add-child-modal/add-child-modal";
 
 @Component({
   selector: 'app-child-detail',
@@ -24,7 +25,8 @@ import { AddExtraVaccineModal } from "../../shared/components/add-extra-vaccine-
     FilterToolbar,
     ReportsCard,
     RegisterVaccineModal,
-    AddExtraVaccineModal
+    AddExtraVaccineModal,
+    AddChildModal
 ],
   templateUrl: './child-detail.html',
   styleUrl: './child-detail.css',
@@ -32,6 +34,9 @@ import { AddExtraVaccineModal } from "../../shared/components/add-extra-vaccine-
 export class ChildDetail implements OnInit {
   child!: ChildDetailData;
   filteredVaccines: Vaccine[] = [];
+  
+  showEditModal = false;
+  showAddModal = false;      // ← Para adicionar
   
   searchTerm: string = '';
   activeFilter: string = 'Todas';
@@ -202,5 +207,32 @@ export class ChildDetail implements OnInit {
       second: '2-digit',
       hour12: false
     });
+  }
+
+  private loadChild() {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    const id = Number(idParam);
+
+    const found = this.childService.getChildDetail(id);
+
+    if (found) {
+      this.child = { ...found };
+      this.filteredVaccines = [...this.child.vacinas];
+      this.filterVaccines();
+      this.createMetrics();
+    } else {
+      this.router.navigate(['/children']);
+    }
+  }
+
+  editChild() {
+    this.showEditModal = true;
+  }
+
+  closeModal() {
+    this.showAddModal = false;
+    this.showEditModal = false;
+    // Recarrega os dados
+    this.loadChild();
   }
 }

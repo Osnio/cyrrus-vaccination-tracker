@@ -160,4 +160,30 @@ export class ChildService {
       this.childrenSubject.next([...children]);
     }
   }
+
+  updateChild(id: number, updatedData: any): boolean {
+    // Atualiza ChildDetailData
+    const details = this.childDetailsSubject.value;
+    const detailIndex = details.findIndex(c => c.id === id);
+    if (detailIndex === -1) return false;
+
+    const updatedDetail = { 
+      ...details[detailIndex],
+      nome: updatedData.nome,
+      nascimento: updatedData.nascimento,
+      genero: updatedData.genero,
+      idade: this.calculateAge(updatedData.nascimento),
+      photoUrl: updatedData.photoUrl,
+      // createdAt permanece o mesmo
+    };
+
+    const newDetails = [...details];
+    newDetails[detailIndex] = updatedDetail;
+    this.childDetailsSubject.next(newDetails);
+
+    // Atualiza a lista principal (Child)
+    this.syncMainList(updatedDetail);
+
+    return true;
+  }
 }
