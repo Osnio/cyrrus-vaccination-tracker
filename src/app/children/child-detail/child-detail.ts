@@ -36,7 +36,11 @@ export class ChildDetail implements OnInit {
   filteredVaccines: Vaccine[] = [];
   
   showEditModal = false;
-  showAddModal = false;      // ← Para adicionar
+  showAddModal = false;
+
+  
+  startDate: string = '';
+  endDate: string = '';
   
   searchTerm: string = '';
   activeFilter: string = 'Todas';
@@ -107,6 +111,7 @@ export class ChildDetail implements OnInit {
 
     let result = [...this.child.vacinas];
 
+    // Busca por nome ou descrição
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
       result = result.filter(v => 
@@ -115,10 +120,31 @@ export class ChildDetail implements OnInit {
       );
     }
 
+    // Filtro por status
     if (this.activeFilter !== 'Todas') {
       result = result.filter(v => v.status === this.activeFilter);
     }
 
+    // === FILTRO POR DATA (NOVO) ===
+    if (this.startDate) {
+      const start = new Date(this.startDate);
+      start.setHours(0, 0, 0, 0);
+      result = result.filter(v => {
+        const vaccineDate = new Date(v.data.split('/').reverse().join('-'));
+        return vaccineDate >= start;
+      });
+    }
+
+    if (this.endDate) {
+      const end = new Date(this.endDate);
+      end.setHours(23, 59, 59, 999);
+      result = result.filter(v => {
+        const vaccineDate = new Date(v.data.split('/').reverse().join('-'));
+        return vaccineDate <= end;
+      });
+    }
+
+    // Ordenação por data (mais recente primeiro)
     result.sort((a, b) => {
       const dateA = new Date(a.data.split('/').reverse().join('-'));
       const dateB = new Date(b.data.split('/').reverse().join('-'));
@@ -126,6 +152,16 @@ export class ChildDetail implements OnInit {
     });
 
     this.filteredVaccines = result;
+  }
+
+  onStartDateChange(date: string): void {
+    this.startDate = date;
+    this.filterVaccines();
+  }
+
+  onEndDateChange(date: string): void {
+    this.endDate = date;
+    this.filterVaccines();
   }
 
   get filters() {
@@ -234,5 +270,13 @@ export class ChildDetail implements OnInit {
     this.showEditModal = false;
     // Recarrega os dados
     this.loadChild();
+  }
+
+  clearVaccineFilters() {
+    this.searchTerm = '';
+    this.activeFilter = 'Todas';
+    this.startDate = '';
+    this.endDate = '';
+    this.filterVaccines();
   }
 }

@@ -23,7 +23,8 @@ export interface ChildDetailData {
   };
   vacinas: Vaccine[];
   photoUrl?: string;
-  createdAt: string;        // ← Nova
+  createdAt: string;   
+  updatedAt?: string; 
   isNew?: boolean;
 }
 

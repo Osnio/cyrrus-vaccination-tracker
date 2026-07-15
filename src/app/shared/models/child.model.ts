@@ -11,5 +11,6 @@ export interface Child {
   overdue: number;
   photoUrl?: string;
   createdAt: string; 
+  updatedAt?: string;
   isNew?: boolean;
 }

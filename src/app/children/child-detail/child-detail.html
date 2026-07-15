@@ -53,10 +53,18 @@
                   Novo
                 </span>
               </div>
-
-              <p class="text-xs text-gray-400 mt-1">
-                Cadastrado em {{ formatCreatedDate(child.createdAt) }}
-              </p>
+              <div class="flex items-center gap-2">
+                <i class="bi bi-calendar-check"></i>
+                <span class="text-xs text-gray-400">
+                  Cadastrado em {{ formatCreatedDate(child.createdAt) }}
+                </span>
+              </div>
+              <div *ngIf="child.updatedAt" class="flex items-center gap-2">
+                <i class="bi bi-pencil-square"></i>
+                <span class="text-xs text-blue-600">
+                  Editado em {{ formatCreatedDate(child.updatedAt) }}
+                </span>
+              </div>
               <div class="flex items-center gap-2">
                 <i class="bi bi-gender-ambiguous"></i>
                 <span>{{ child.genero }}</span>
@@ -133,13 +141,19 @@
     [activeFilter]="activeFilter"
     [filters]="filters"
     
-    [showStatusFilter]="true"      
-    [showSortFilter]="false"       
-    [showDateFilter]="true"       
-    [showClearButton]="true"      
+    [showStatusFilter]="true"
+    [showSortFilter]="false"
+    [showDateFilter]="true"           
+    [showClearButton]="true"
+    
+    [startDate]="startDate"
+    [endDate]="endDate"
     
     (searchChange)="onSearchChange($event)"
-    (filterChange)="setFilter($event)">
+    (filterChange)="setFilter($event)"
+    (startDateChange)="onStartDateChange($event)"
+    (endDateChange)="onEndDateChange($event)"
+    (clearFiltersEvent)="clearVaccineFilters()">
   </app-filter-toolbar>
   </div>
 

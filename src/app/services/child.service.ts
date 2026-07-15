@@ -167,21 +167,21 @@ export class ChildService {
     const detailIndex = details.findIndex(c => c.id === id);
     if (detailIndex === -1) return false;
 
-    const updatedDetail = { 
+    const updatedDetail: ChildDetailData = { 
       ...details[detailIndex],
       nome: updatedData.nome,
       nascimento: updatedData.nascimento,
       genero: updatedData.genero,
       idade: this.calculateAge(updatedData.nascimento),
       photoUrl: updatedData.photoUrl,
-      // createdAt permanece o mesmo
+      updatedAt: new Date().toISOString()   // ← Data de edição
     };
 
     const newDetails = [...details];
     newDetails[detailIndex] = updatedDetail;
     this.childDetailsSubject.next(newDetails);
 
-    // Atualiza a lista principal (Child)
+    // Atualiza lista principal
     this.syncMainList(updatedDetail);
 
     return true;
