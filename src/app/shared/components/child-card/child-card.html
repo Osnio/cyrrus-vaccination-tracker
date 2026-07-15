@@ -1,9 +1,9 @@
 <a [routerLink]="['/children', child.id]" class="block hover:scale-[1.02] transition-transform duration-200">
-  <aside class="card">
-    <div class="header">
-      <div class="profile">
+  <main class="card">
+    <aside class="header">
+      <section class="profile">
         <div class="avatar">
-          <!-- Imagem ou Inicial -->
+
           <img *ngIf="child.photoUrl" 
               [src]="child.photoUrl" 
               alt="Foto de {{ child.name }}"
@@ -11,12 +11,12 @@
 
           <span *ngIf="!child.photoUrl">{{ getInitials() }}</span>
 
-          <span *ngIf="isNew()" 
-                class="absolute -top-8 -right-77.5 bg-(--dark) text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1 z-10">
-            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-            NOVO
-          </span>
         </div>
+        <span *ngIf="isNew()" 
+        class="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1 z-10">
+    <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+    NOVO
+  </span>
 
         <div class="info">
           <h3>{{ child.name }}</h3>
@@ -25,17 +25,15 @@
               {{ formatCreatedDate(child.createdAt) }}
             </span>
         </div>
-      </div>
+      </section>
 
-      <span class="chevron">›</span>
-    </div>
+      <span class="chevron"><i class="bi bi-arrow-right-short"></i></span>
+    </aside>
 
-    <!-- STATUS -->
     <div class="status" [ngClass]="getStatusClass()">
       {{ child.status }}
     </div>
 
-    <!-- PROGRESS -->
     <div class="progress-header">
       <span>Calendário vacinal</span>
       <strong>{{ child.progress }}%</strong>
@@ -49,7 +47,6 @@
       </div>
     </div>
 
-    <!-- STATS -->
     <div class="stats">
       <div>
         <strong>{{ child.applied }}</strong>
@@ -64,5 +61,5 @@
         <span>ATRASADAS</span>
       </div>
     </div>
-  </aside>
+  </main>
 </a>
