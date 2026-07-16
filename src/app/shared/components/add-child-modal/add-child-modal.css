@@ -1,26 +1,116 @@
-button:hover {
-  color: snow;
-  background: var(--dark) !important;
-  transform: translateY(-3px);
-
+button {
   transition:
     background-color .35s ease,
     transform .25s ease,
     box-shadow .35s ease;
 }
+
+button:hover {
+  color: snow;
+  background: var(--dark) !important;
+  transform: translateY(-3px);
+}
+
+
+/* Campos do formulário */
 .form-field {
   opacity: 0;
   transform: translateY(12px);
   animation: fieldPop 300ms forwards;
 }
 
-.form-field:nth-child(1) { animation-delay: 50ms; }
-.form-field:nth-child(2) { animation-delay: 100ms; }
-.form-field:nth-child(3) { animation-delay: 150ms; }
+.form-field:nth-child(1) {
+  animation-delay: 50ms;
+}
+
+.form-field:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.form-field:nth-child(3) {
+  animation-delay: 150ms;
+}
+
+
+/* Entrada do modal */
+.modal-backdrop {
+  animation: fadeIn 200ms ease-out forwards;
+}
+
+.modal-content {
+  animation: slideUp 250ms ease-out forwards;
+}
+
+
+/* Fechamento do modal */
+.modal-backdrop.closing {
+  animation: fadeOut 250ms ease-in forwards;
+  pointer-events: none;
+}
+
+.modal-content.closing {
+  animation: slideDown 250ms ease-in forwards;
+}
+
+
+/* Keyframes */
 
 @keyframes fieldPop {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
   }
 }

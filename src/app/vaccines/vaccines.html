@@ -15,6 +15,13 @@
 
   <!-- Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-    <app-vaccine-card *ngFor="let vaccine of filteredVaccines" [vaccine]="vaccine"></app-vaccine-card>
+    <app-vaccine-card *ngFor="let vaccine of pagedVaccines" [vaccine]="vaccine"></app-vaccine-card>
   </div>
+
+  <app-pagination
+    [currentPage]="currentPage"
+    [totalItems]="filteredVaccines.length"
+    [pageSize]="PAGE_SIZE"
+    (pageChange)="currentPage = $event">
+</app-pagination>
 </main>

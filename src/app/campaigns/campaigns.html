@@ -35,8 +35,15 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <app-campaigns-card 
-      *ngFor="let campaign of filteredCampaigns" 
+      *ngFor="let campaign of pagedCampaigns" 
       [campaign]="campaign">
     </app-campaigns-card>
   </div>
+
+    <app-pagination
+    [currentPage]="currentPage"
+    [totalItems]="filteredCampaigns.length"
+    [pageSize]="PAGE_SIZE"
+    (pageChange)="currentPage = $event">
+</app-pagination>
 </main>

@@ -11,4 +11,14 @@ import { ChildSummary } from '../../models/dashboard.model';
 })
 export class ChildProgressCard {
   @Input({ required: true }) child!: ChildSummary;
+
+  getInitials(nomeCompleto: string = ''): string {
+    if (!nomeCompleto) return '??';
+    
+    const nomes = nomeCompleto.trim().split(' ');
+    if (nomes.length === 1) {
+      return nomes[0].substring(0, 2).toUpperCase();
+    }
+    return (nomes[0][0] + nomes[nomes.length - 1][0]).toUpperCase();
+  }
 }

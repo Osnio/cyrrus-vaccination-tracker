@@ -9,32 +9,36 @@ import { AddChildModal } from "../shared/components/add-child-modal/add-child-mo
 
 import { ChildService } from "../services/child.service";
 import { Child } from '../shared/models/child.model';
+import { Pagination } from "../shared/components/pagination/pagination";
+
+
 
 @Component({
   selector: 'app-children',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChildCard, PageHeader, FilterToolbar, AddChildModal],
+  imports: [CommonModule, FormsModule, ChildCard, PageHeader, FilterToolbar, AddChildModal, Pagination],
   templateUrl: './children.html',
   styleUrl: './children.css',
 })
 export class Children {
-  private readonly PAGE_SIZE = 6;
-
+  
+  public readonly PAGE_SIZE = 6;
+  
+  currentPage = 1;
   children: Child[] = [];
   filteredChildren: Child[] = [];
   pagedChildren: Child[] = [];
 
-  currentPage = 1;
   showAddModal = false;
+  isClosingModal = false;
 
   startDate: string = '';
   endDate: string = '';
 
   searchTerm: string = '';
   activeFilter: string = 'all';
-  sortBy: 'name' | 'recent' | 'age' = 'recent';   // Default: mais recentes
+  sortBy: 'name' | 'recent' | 'age' = 'recent'; 
 
-  // === Filtros e Ordenação ===
   filters = [
     { label: 'Todos', value: 'all' },
     { label: 'Em dia', value: 'Em dia' },
@@ -59,29 +63,6 @@ export class Children {
     return this.children.length;
   }
 
-  get totalPages(): number {
-    return Math.max(1, Math.ceil(this.filteredChildren.length / this.PAGE_SIZE));
-  }
-
-  get startItem(): number {
-    return (this.currentPage - 1) * this.PAGE_SIZE + 1;
-  }
-
-  get endItem(): number {
-    return Math.min(this.currentPage * this.PAGE_SIZE, this.filteredChildren.length);
-  }
-
-  get pageNumbers(): number[] {
-    const pages: number[] = [];
-    const maxVisible = 5;
-
-    let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2));
-    let end = Math.min(this.totalPages, start + maxVisible - 1);
-    if (end - start < maxVisible - 1) start = Math.max(1, end - maxVisible + 1);
-
-    for (let i = start; i <= end; i++) pages.push(i);
-    return pages;
-  }
 
   applyFilters(): void {
     let result = [...this.children];
@@ -135,9 +116,15 @@ export class Children {
   }
 
   private updatePagedChildren(): void {
+
     const start = (this.currentPage - 1) * this.PAGE_SIZE;
     const end = start + this.PAGE_SIZE;
     this.pagedChildren = this.filteredChildren.slice(start, end);
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.updatePagedChildren();
   }
 
   // ==================== Eventos ====================
@@ -165,13 +152,20 @@ export class Children {
     this.sortBy = value as 'name' | 'recent' | 'age';
     this.applyFilters();
   }
+  
 
   openAddModal() {
     this.showAddModal = true;
+    this.isClosingModal = false;
   }
 
   closeAddModal() {
-    this.showAddModal = false;
+    this.isClosingModal = true;
+
+    setTimeout(() => {
+      this.showAddModal = false;
+      this.isClosingModal = false;
+    }, 250);
   }
 
   clearFilters(): void {
@@ -183,18 +177,4 @@ export class Children {
     this.applyFilters();
   }
 
-  // Paginação
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages) return;
-    this.currentPage = page;
-    this.updatePagedChildren();
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 1) this.goToPage(this.currentPage - 1);
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.totalPages) this.goToPage(this.currentPage + 1);
-  }
 }

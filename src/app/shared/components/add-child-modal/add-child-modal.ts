@@ -11,13 +11,13 @@ import { ToastService } from '../../../services/toast.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-child-modal.html',
-  host: { 'class': 'animate-in fade-in slide-in-from-bottom-4 duration-300' },
   styleUrl: './add-child-modal.css',
 })
 export class AddChildModal implements OnChanges {
   @Output() closed = new EventEmitter<void>();
   @Input() childToEdit: any = null;
 
+  @Input() isClosing = false;
   isEditMode = false;
   editingId: number | null = null;
 

@@ -1,9 +1,14 @@
 export interface ChildSummary {
-  nome: string;
-  idade: string;
+  id?: number;
+  nome?: string;
+  name?: string;
+  crianca?: string;
+  idade?: string;
+  age?: string;
+  photoUrl?: string;
   porcentagem: number;
   status: string;
-  detalhe: string;
+  detalhe?: string;
 }
 
 export interface ProximaVacinacao {
@@ -11,6 +16,7 @@ export interface ProximaVacinacao {
   vacina: string;
   data: string;
   prazo: string;
+  photoUrl?: string;
 }
 
 export interface AlertaImportante {

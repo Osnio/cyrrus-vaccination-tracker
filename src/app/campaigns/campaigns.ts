@@ -4,11 +4,12 @@ import { CampaignsCard, Campaign } from '../shared/components/campaigns-card/cam
 import { FilterToolbar } from '../shared/components/filter-toolbar/filter-toolbar';
 import { PageHeader } from "../shared/components/page-header/page-header";
 import { CAMPAIGNS_DATA } from '../mocks/ampaigns.data';
+import { Pagination } from "../shared/components/pagination/pagination";
 
 @Component({
   selector: 'app-campaigns',
   standalone: true,
-  imports: [CommonModule, CampaignsCard, FilterToolbar, PageHeader],
+  imports: [CommonModule, CampaignsCard, FilterToolbar, PageHeader, Pagination],
   templateUrl: './campaigns.html',
   styleUrl: './campaigns.css',
 })
@@ -17,6 +18,9 @@ export class Campaigns {
   activeFilter: string = 'Todas';
 
   campaigns: Campaign[] = CAMPAIGNS_DATA;
+
+  readonly PAGE_SIZE = 6;
+  currentPage = 1;
 
   get filters() {
     return [
@@ -59,5 +63,14 @@ export class Campaigns {
 
   onSearchChange(term: string): void {
     this.searchTerm = term;
+  }
+
+  get pagedCampaigns() {
+    const start = (this.currentPage - 1) * this.PAGE_SIZE;
+    return this.filteredCampaigns.slice(
+        start,
+        start + this.PAGE_SIZE
+    );
+
   }
 }

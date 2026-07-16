@@ -5,6 +5,7 @@ import { VaccineCard } from "../shared/components/vaccine-card/vaccine-card";
 import { PageHeader } from "../shared/components/page-header/page-header";
 import { FilterToolbar } from "../shared/components/filter-toolbar/filter-toolbar";
 import { VACCINES_DATA } from '../mocks/vaccines.data';
+import { Pagination } from "../shared/components/pagination/pagination";
 
 export interface Vaccine {
   nome: string;
@@ -18,7 +19,7 @@ export interface Vaccine {
 @Component({
   selector: 'app-vaccines',
   standalone: true,          // ← Adicione isso
-  imports: [CommonModule, FormsModule, VaccineCard, PageHeader, FilterToolbar],
+  imports: [CommonModule, FormsModule, VaccineCard, PageHeader, FilterToolbar, Pagination],
   templateUrl: './vaccines.html',
   styleUrl: './vaccines.css',
 })
@@ -27,6 +28,9 @@ export class Vaccines {
   activeFilter: string = 'Todas';
 
   vaccines: Vaccine[] = VACCINES_DATA;
+
+  readonly PAGE_SIZE = 6;
+  currentPage = 1;
 
   get filters() {
     return [
@@ -65,5 +69,13 @@ export class Vaccines {
 
   onSearchChange(term: string): void {
     this.searchTerm = term;
+  }
+
+  get pagedVaccines() {
+    const start = (this.currentPage - 1) * this.PAGE_SIZE;
+    return this.filteredVaccines.slice(
+      start,
+      start + this.PAGE_SIZE
+    );
   }
 }
