@@ -5,6 +5,9 @@ export interface Vaccine {
   data: string;
   recom: string;
   status: 'Aplicada' | 'Próxima' | 'Atrasada';
+
+  local?: string;
+  observacoes?: string;
 }
 
 export interface ChildDetailData {

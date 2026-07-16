@@ -1,10 +1,16 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { ChildService } from '../../../services/child.service';
 import { ToastService } from '../../../services/toast.service';
+
+interface ChildFormData {
+  nome: string;
+  nascimento: string;
+  genero: 'Masculino' | 'Feminino' | '';
+}
 
 @Component({
   selector: 'app-add-child-modal',
@@ -14,31 +20,29 @@ import { ToastService } from '../../../services/toast.service';
   styleUrl: './add-child-modal.css',
 })
 export class AddChildModal implements OnChanges {
-  @Output() closed = new EventEmitter<void>();
-  @Input() childToEdit: any = null;
-
+@Input() childToEdit: any = null;
   @Input() isClosing = false;
+
+  @Output() closed = new EventEmitter<void>();
+
   isEditMode = false;
   editingId: number | null = null;
 
-  formData = {
+  formData: ChildFormData = {
     nome: '',
     nascimento: '',
     genero: '',
-    idade: 'Nova criança'
   };
 
   imagePreview: SafeUrl | null = null;
   selectedFile: File | null = null;
   isImageLoading = false;
 
-  constructor(
-    private childService: ChildService,
-    private toastService: ToastService,
-    private sanitizer: DomSanitizer
-  ) {}
+  private readonly childService = inject(ChildService);
+  private readonly toastService = inject(ToastService);
+  private readonly sanitizer = inject(DomSanitizer);
 
-ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['childToEdit'] && this.childToEdit) {
       this.isEditMode = true;
       this.editingId = this.childToEdit.id;
@@ -46,8 +50,7 @@ ngOnChanges(changes: SimpleChanges) {
       this.formData = {
         nome: this.childToEdit.nome || this.childToEdit.name || '',
         nascimento: this.childToEdit.nascimento || '',
-        genero: this.childToEdit.genero || '',
-        idade: this.childToEdit.idade || ''
+        genero: (this.childToEdit.genero as 'Masculino' | 'Feminino') || '',
       };
 
       if (this.childToEdit.photoUrl) {
@@ -59,12 +62,14 @@ ngOnChanges(changes: SimpleChanges) {
     }
   }
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      this.toastService.show('A imagem deve ter no máximo 5MB', 'error');
+      this.toastService.show('A imagem deve ter no máximo 5MB.', 'error');
+      input.value = '';
       return;
     }
 
@@ -76,9 +81,11 @@ ngOnChanges(changes: SimpleChanges) {
     this.isImageLoading = false;
   }
 
-  removeImage() {
+  removeImage(): void {
     this.imagePreview = null;
     this.selectedFile = null;
+    const fileInput = document.getElementById('photoUpload') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   getInitials(): string {
@@ -89,45 +96,56 @@ ngOnChanges(changes: SimpleChanges) {
   }
 
   isFormValid(): boolean {
-    return this.formData.nome?.trim().length >= 3 && 
-           !!this.formData.nascimento && 
-           !!this.formData.genero;
+    return (
+      this.formData.nome?.trim().length >= 2 &&
+      !!this.formData.nascimento &&
+      !!this.formData.genero
+    );
   }
 
-  onSubmit() {
-    if (!this.isFormValid()) return;
+  onSubmit(): void {
+    if (!this.isFormValid()) {
+      this.toastService.show('Por favor, preencha todos os campos obrigatórios.', 'error');
+      return;
+    }
 
     const childData = {
       ...this.formData,
-      name: this.formData.nome,
-      photoUrl: this.selectedFile ? URL.createObjectURL(this.selectedFile) : this.childToEdit?.photoUrl,
-      createdAt: this.isEditMode ? undefined : new Date().toISOString()
+      name: this.formData.nome.trim(),
+      photoUrl: this.selectedFile 
+        ? URL.createObjectURL(this.selectedFile) 
+        : this.childToEdit?.photoUrl,
+      createdAt: this.isEditMode ? undefined : new Date().toISOString(),
     };
 
     if (this.isEditMode && this.editingId !== null) {
       this.childService.updateChild(this.editingId, childData);
-      this.toastService.show('Criança atualizada com sucesso!');
+      this.toastService.show('Criança atualizada com sucesso!', 'success');
     } else {
       this.childService.addChild(childData);
-      this.toastService.show('Criança cadastrada com sucesso!');
+      this.toastService.show('Criança cadastrada com sucesso! Calendário vacinal gerado automaticamente.', 'success');
     }
 
     this.close();
   }
 
-  close() {
+  close(): void {
     this.resetForm();
     this.closed.emit();
   }
 
-  private resetForm() {
-    this.formData = { nome: '', nascimento: '', genero: '', idade: 'Nova criança' };
+  private resetForm(): void {
+    this.formData = { nome: '', nascimento: '', genero: '' };
     this.imagePreview = null;
     this.selectedFile = null;
     this.isImageLoading = false;
+    this.isEditMode = false;
+    this.editingId = null;
   }
 
-  onBackdropClick(e: MouseEvent) {
-    if ((e.target as HTMLElement).classList.contains('fixed')) this.close();
+  onBackdropClick(e: MouseEvent): void {
+    if ((e.target as HTMLElement).classList.contains('modal-backdrop')) {
+      this.close();
+    }
   }
 }

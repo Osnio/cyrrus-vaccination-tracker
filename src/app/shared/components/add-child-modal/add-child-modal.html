@@ -1,124 +1,133 @@
-<main   class="modal-backdrop fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
-  [class.closing]="isClosing" (click)="onBackdropClick($event)">
+<main 
+  class="modal-backdrop fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+  [class.closing]="isClosing"
+  (click)="onBackdropClick($event)">
 
-  <section   class="modal-content bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden"
-   [class.closing]="isClosing" (click)="$event.stopPropagation()">
-    
+  <section 
+    class="modal-content bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden"
+    [class.closing]="isClosing"
+    (click)="$event.stopPropagation()">
+
+    <!-- Header -->
     <div class="px-8 pt-8 pb-6 border-b border-gray-100">
       <h2 class="text-2xl font-bold text-(--dark)">
         {{ isEditMode ? 'Editar Criança' : 'Cadastrar Nova Criança' }}
       </h2>
-      <p class="text-gray-500 mt-1 text-sm">Os dados abaixo são obrigatórios. O calendário vacinal será gerado automaticamente de acordo com a idade da criança.</p>
+      <p class="text-gray-500 mt-1 text-sm">
+        Os dados abaixo são obrigatórios. O calendário vacinal será gerado automaticamente de acordo com a idade da criança.
+      </p>
     </div>
 
-    <form #form="ngForm" (ngSubmit)="onSubmit()" class="px-8 py-5 space-y-8">
-      <aside>
-        <label class="block text-sm font-medium text-(--dark) mb-3">Foto da Criança</label>
-        
-        <aside>
-          <div class="flex items-center gap-6">
-          <div class="w-24 h-24 rounded-3xl overflow-hidden border-4 border-white shadow-md shrink-0 relative">
-            <div *ngIf="isImageLoading" 
-                class="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
-              <div class="w-8 h-8 border-4 border-(--primary) border-t-transparent rounded-full animate-spin"></div>
-            </div>
+    <!-- Form -->
+    <form #form="ngForm" (ngSubmit)="onSubmit()" class="px-8 py-6 grid gap-6">
 
-            <img *ngIf="imagePreview && !isImageLoading" 
-                [src]="imagePreview" 
-                class="w-full h-full object-cover">
-
-            <div *ngIf="!imagePreview && !isImageLoading" 
-                class="w-full h-full bg-(--primary) flex items-center justify-center text-4xl font-bold text-(--dark)">
-              {{ getInitials() }}
-            </div>
-          </div>
-  
-            <div>
-              <label for="photoUpload"  class="cursor-pointer inline-flex items-center gap-2 px-5 py-3 bg-gray-100 hover:bg-gray-200 rounded-3xl text-sm font-medium transition-colors">
-                <i class="bi bi-camera"></i>
-                Escolher Foto
-              </label>
-              <input type="file" 
-                     id="photoUpload" 
-                     accept="image/*" 
-                     (change)="onFileSelected($event)"
-                     class="hidden">
-              
-              <p class="text-xs text-gray-500 mt-2"> PNG, JPG ou JPEG (máx. 5MB) <br> Foto (opcional) </p>
-              <button *ngIf="imagePreview" type="button" (click)="removeImage()"
-                      class="text-red-500 text-xs mt-2 hover:underline cursor-pointer">Remover foto</button>
-            </div>
+      <!-- Foto -->
+      <div class="flex items-center gap-4">
+        <div class="w-20 h-20 rounded-2xl overflow-hidden border-2 border-white shadow-md shrink-0 relative bg-muted">
+          <div *ngIf="isImageLoading" 
+               class="absolute inset-0 bg-white/80 flex items-center justify-center z-10">
+            <div class="w-6 h-6 border-4 border-(--primary) border-t-transparent rounded-full animate-spin"></div>
           </div>
 
-        </aside>
-      </aside> 
+          <img *ngIf="imagePreview && !isImageLoading" 
+               [src]="imagePreview" 
+               class="w-full h-full object-cover">
 
-      <div>
-        <label class="block text-sm font-medium text-(--dark) mb-2">Nome Completo <span class="text-red-500">*</span></label>
+          <div *ngIf="!imagePreview && !isImageLoading" 
+               class="w-full h-full bg-(--primary) flex items-center justify-center text-3xl font-bold text-(--dark)">
+            {{ getInitials() }}
+          </div>
+        </div>
+
+        <div class="flex-1">
+          <label for="photoUpload" class="text-xs font-semibold text-(--dark) block mb-1">
+            Foto (opcional)
+          </label>
+          
+          <label 
+            for="photoUpload"
+            class="inline-flex items-center gap-2 rounded-xl bg-muted px-3 py-2 text-xs font-semibold cursor-pointer hover:bg-muted/70 transition-colors">
+            <i class="bi bi-camera"></i> 
+            Enviar imagem
+          </label>
+
+          <input type="file" id="photoUpload" accept="image/*" 
+                 (change)="onFileSelected($event)" class="hidden">
+
+          <p class="mt-1.5 text-[11px] text-muted-foreground">
+            Sem foto? Geramos um avatar na paleta Cyrrus.
+          </p>
+
+          <button *ngIf="imagePreview" type="button" (click)="removeImage()"
+                  class="text-red-500 text-xs mt-2 hover:underline cursor-pointer">
+            Remover foto
+          </button>
+        </div>
+      </div>
+
+      <!-- Nome -->
+      <div class="grid gap-1.5">
+        <label class="text-sm font-medium text-(--dark)">Nome completo</label>
         <input
           [(ngModel)]="formData.nome"
           name="nome"
-          #nome="ngModel"
+          #nomeCtrl="ngModel"
           required
-          minlength="3"
-          class="w-full px-5 py-3 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)"
-          placeholder="Ex: Helena Martins">
-
-        <small
-          *ngIf="nome.invalid && (nome.touched || form.submitted)"
-          class="text-red-500 text-xs mt-1 block">
-          O nome da criança é obrigatório.
+          minlength="2"
+          class="w-full cursor-pointer px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-(--primary) text-base"
+          placeholder="Ex.: Helena Martins">
+        <small *ngIf="nomeCtrl.invalid && (nomeCtrl.touched || form.submitted)"
+               class="text-xs text-red-500">
+          Nome completo é obrigatório (mín. 2 caracteres).
         </small>
       </div>
 
-      <aside class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label class="block text-sm font-medium text-(--dark) mb-2">Data de Nascimento <span class="text-red-500">*</span></label>
+      <!-- Data + Gênero -->
+      <div class="grid gap-6 sm:grid-cols-2">
+        <div class="grid gap-1.5">
+          <label class="text-sm font-medium text-(--dark)">Data de nascimento</label>
           <input
             type="date"
             [(ngModel)]="formData.nascimento"
             name="nascimento"
-            #nascimento="ngModel"
+            #nascCtrl="ngModel"
             required
-            class="w-full cursor-pointer px-5 py-4 border border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
-
-          <small
-            *ngIf="nascimento.invalid && (nascimento.touched || form.submitted)"
-            class="text-red-500 text-xs mt-1 block">
-            A data de nascimento é obrigatória.
+            class="w-full cursor-pointer px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:border-(--primary)">
+          <small *ngIf="nascCtrl.invalid && (nascCtrl.touched || form.submitted)"
+                 class="text-xs text-red-500">
+            Data de nascimento é obrigatória.
           </small>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-(--dark) mb-2">Gênero <span class="text-red-500">*</span></label>
+        <div class="grid gap-1.5">
+          <label class="text-sm cursor-pointer font-medium text-(--dark)">Gênero</label>
           <select
             [(ngModel)]="formData.genero"
             name="genero"
-            #genero="ngModel"
+            #generoCtrl="ngModel"
             required
-            class="w-full px-5 py-4 border cursor-pointer border-gray-200 rounded-3xl focus:outline-none focus:border-(--primary)">
-
+            class="w-full h-10 px-4 border border-gray-200 rounded-xl focus:outline-none focus:border-(--primary) bg-transparent cursor-pointer">
             <option value="">Selecione</option>
-            <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
-
+            <option value="Masculino">Masculino</option>
           </select>
-
-          <small
-            *ngIf="genero.invalid && (genero.touched || form.submitted)"
-            class="text-red-500 text-xs mt-1 block">
-            O gênero é obrigatório.
+          <small *ngIf="generoCtrl.invalid && (generoCtrl.touched || form.submitted)"
+                 class="text-xs text-red-500">
+            Selecione o gênero.
           </small>
         </div>
-      </aside>
+      </div>
 
-      <div class="flex gap-4 pt-1">
-        <button type="button" (click)="close()"
-          class="flex-1 cursor-pointer py-3 text-(--dark) border border-gray-300 rounded-3xl font-medium hover:bg-gray-50">
+      <!-- Actions -->
+      <div class="flex gap-3 pt-4">
+        <button type="button" 
+                (click)="close()"
+                class="flex-1 cursor-pointer py-3 text-(--dark) border border-gray-300 rounded-2xl font-medium hover:bg-gray-50 transition-all">
           Cancelar
         </button>
-
-        <button type="submit"  class="flex-1 cursor-pointer py-3 bg-(--primary) text-white font-semibold rounded-3xl hover:brightness-105 transition-all">
+        <button type="submit" 
+                [disabled]="!isFormValid()"
+                class="flex-1 cursor-pointer py-3 bg-(--primary) text-white font-semibold rounded-2xl hover:brightness-105 transition-all disabled:opacity-60">
           {{ isEditMode ? 'Salvar Alterações' : 'Cadastrar Criança' }}
         </button>
       </div>

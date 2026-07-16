@@ -1,34 +1,85 @@
-<div class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" (click)="onBackdropClick($event)">
-      <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full" (click)="$event.stopPropagation()">
-        <div class="p-8">
-          <h2 class="text-2xl font-bold text-(--dark)">Registrar Aplicação</h2>
-          
-          <form (ngSubmit)="onConfirm()" class="mt-6 space-y-6">
-            <div>
-              <label class="block text-sm font-medium mb-2">Data da Aplicação</label>
-              <input type="date" [(ngModel)]="formData.data" name="data" 
-                     class="w-full px-5 py-4 border border-gray-200 rounded-3xl focus:border-(--primary)">
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium mb-2">Lote / Fabricante (opcional)</label>
-              <input [(ngModel)]="formData.lote" name="lote"
-                     class="w-full px-5 py-4 border border-gray-200 rounded-3xl">
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium mb-2">Observações (opcional)</label>
-              <textarea [(ngModel)]="formData.observacoes" name="observacoes" rows="3"
-                        class="w-full px-5 py-4 border border-gray-200 rounded-3xl resize-y"></textarea>
-            </div>
-
-            <div class="flex gap-4 pt-4">
-              <button type="button" (click)="close()" 
-                      class="flex-1 py-4 border border-gray-300 rounded-3xl">Cancelar</button>
-              <button type="submit" 
-                      class="flex-1 py-4 bg-(--primary) text-white rounded-3xl font-semibold">Confirmar Aplicação</button>
-            </div>
-          </form>
+<main class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4" (click)="onBackdropClick($event)">
+  
+  <section class="bg-[#f8f5f0] border border-gray-200 rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden" (click)="$event.stopPropagation()">
+    
+    <!-- Cabeçalho -->
+    <div class="flex items-start justify-between p-8 pb-6 border-b border-gray-200">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-(--dark) rounded-2xl flex items-center justify-center shrink-0">
+          <i class="bi bi-shield-plus text-white text-2xl"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-(--dark)">Registrar aplicação</h2>
+          <p class="text-gray-600 text-sm mt-1">Confirme os detalhes da dose administrada.</p>
         </div>
       </div>
+      
+      <button (click)="close()" class="cursor-pointer text-gray-400 hover:text-gray-600 transition-colors">
+        <i class="bi bi-x-lg text-2xl"></i>
+      </button>
     </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="p-8 space-y-6">
+      
+      <!-- Vacina e Dose -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1.5">VACINA</label>
+          <input type="text" [value]="vaccine?.nome || ''" disabled
+          class="w-full outline-none px-3 py-2 bg-gray-100 border border-gray-200 rounded-xl text-gray-700 cursor-not-allowed">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1.5">Nº DA DOSE</label>
+          <input type="text" [value]="vaccine?.dose || ''" disabled
+          class="w-full outline-none px-3 py-2 bg-gray-100 border border-gray-200 rounded-xl text-gray-700 cursor-not-allowed">
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div>
+        <label class="block text-xs font-medium text-gray-500 mb-1.5">DATA DA APLICAÇÃO <span class="text-red-500">*</span></label>
+        <input type="date" formControlName="data"
+        class="w-full outline-none px-3 py-2 border border-emerald-200 focus:border-emerald-500 rounded-xl bg-white">
+      </div>
+
+      <!-- Local -->
+<div>
+  <label class="block text-xs font-medium text-gray-500 mb-1.5">LOCAL (opcional)</label>
+  <input type="text" 
+         formControlName="local" 
+         placeholder="Ex.: UBS Vila Nova"
+         maxlength="80"
+         class="w-full outline-none px-3 py-2 border border-gray-200 focus:border-(--primary) rounded-xl">
+  <p *ngIf="registerForm.get('local')?.value" class="text-xs text-gray-400 text-right mt-1">
+    {{ registerForm.get('local')?.value?.length || 0 }}/80
+  </p>
+</div>
+
+      <!-- Observações -->
+<div>
+  <label class="block text-xs font-medium text-gray-500 mb-1.5">OBSERVAÇÕES (opcional)</label>
+  <textarea formControlName="observacoes" 
+            rows="4" 
+            placeholder="Reações, lote, orientações do enfermeiro..."
+            maxlength="500"
+            class="w-full px-5 outline-none py-4 border border-gray-200 focus:border-(--primary) rounded-3xl resize-y"></textarea>
+  <p *ngIf="registerForm.get('observacoes')?.value" class="text-xs text-gray-400 text-right mt-1">
+    {{ registerForm.get('observacoes')?.value?.length || 0 }}/500
+  </p>
+</div>
+
+      <!-- Botões -->
+      <div class="flex gap-3 pt-4">
+        <button type="button" (click)="close()"
+          class="flex-1 cursor-pointer py-3 text-(--dark) border border-gray-300 rounded-3xl font-medium hover:bg-gray-50">
+          Cancelar
+        </button>
+        
+        <button type="submit" [disabled]="registerForm.invalid || isLoading"
+          class="flex-1 cursor-pointer py-3 bg-(--primary) text-white font-semibold rounded-3xl hover:brightness-105 transition-all">
+          {{ isLoading ? 'Registrando...' : 'Confirmar aplicação' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

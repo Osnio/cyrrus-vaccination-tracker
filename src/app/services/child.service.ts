@@ -5,6 +5,12 @@ import { ChildDetailData, Vaccine } from '../shared/models/child-detail.model';
 import { CHILDREN_DATA } from '../mocks/children.data';
 import { CHILD_DETAIL_DATA } from '../mocks/child-detail.data';
 
+export interface VaccineApplicationData {
+  applicationDate: string;
+  local?: string;
+  observacoes?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,70 +29,16 @@ export class ChildService {
     return this.childDetailsSubject.value.find(c => c.id === id);
   }
 
-  addChild(newChildData: { 
-    nome: string; 
-    nascimento: string; 
-    genero: string; 
-    idade?: string;
-    photoUrl?: string;
-  }): ChildDetailData {
-    
-    const maxId = Math.max(0, ...this.childDetailsSubject.value.map(c => c.id));
-    const id = maxId + 1;
-    const createdAt = new Date().toISOString();   // ← Importante
-
-    const idadeCalculada = this.calculateAge(newChildData.nascimento);
-
-    const childDetail: ChildDetailData = {
-      id,
-      nome: newChildData.nome,
-      nascimento: newChildData.nascimento,
-      idade: idadeCalculada,
-      genero: newChildData.genero,
-      statusGeral: 'Próxima vacinação',
-      progresso: 0,
-      contadores: {
-        aplicadas: 0,
-        pendentes: 11,
-        atrasadas: 0,
-        total: 11
-      },
-      vacinas: [],
-      photoUrl: newChildData.photoUrl,
-      createdAt,                    // ← Adicionado
-    };
-
-    const childList: Child = {
-      id: id.toString(),
-      name: newChildData.nome,
-      age: idadeCalculada,
-      status: 'Próxima vacinação',
-      progress: 0,
-      applied: 0,
-      pending: 11,
-      overdue: 0,
-      photoUrl: newChildData.photoUrl,
-      createdAt,                    // ← Adicionado
-    };
-
-    this.childrenSubject.next([...this.childrenSubject.value, childList]);
-    this.childDetailsSubject.next([...this.childDetailsSubject.value, childDetail]);
-
-    return childDetail;
+  getVaccineByIndex(childId: number, vaccineIndex: number): Vaccine | undefined {
+    const child = this.getChildDetail(childId);
+    return child?.vacinas[vaccineIndex];
   }
 
-  private calculateAge(birthDate: string): string {
-    if (!birthDate) return 'Nova criança';
-    const birth = new Date(birthDate);
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--;
-    return age === 0 ? 'Recém-nascido' : `${age} anos`;
-  }
-
-  // ====================== MÉTODOS EXISTENTES (sem alteração) ======================
-  registerVaccineApplication(childId: number, vaccineIndex: number, applicationDate: string): boolean {
+  registerVaccineApplication(
+    childId: number,
+      vaccineIndex: number,
+      data: VaccineApplicationData
+    ): boolean {
     const details = this.childDetailsSubject.value;
     const childIndex = details.findIndex(c => c.id === childId);
     if (childIndex === -1) return false;
@@ -96,8 +48,15 @@ export class ChildService {
 
     if (!vaccine || vaccine.status === 'Aplicada') return false;
 
-    child.vacinas[vaccineIndex] = { ...vaccine, status: 'Aplicada', data: applicationDate };
+    child.vacinas[vaccineIndex] = { 
+      ...vaccine, 
+      status: 'Aplicada', 
+      data: data.applicationDate,
+      local: data.local,
+      observacoes: data.observacoes
+    };
 
+    // Recalcula contadores
     const aplicadas = child.vacinas.filter(v => v.status === 'Aplicada').length;
     const atrasadas = child.vacinas.filter(v => v.status === 'Atrasada').length;
     const pendentes = child.vacinas.length - aplicadas - atrasadas;
@@ -117,6 +76,58 @@ export class ChildService {
     return true;
   }
 
+  addChild(newChildData: {
+    nome: string;
+    nascimento: string;
+    genero: string;
+    idade?: string;
+    photoUrl?: string;
+  }): ChildDetailData {
+
+    const maxId = Math.max(0, ...this.childDetailsSubject.value.map(c => c.id));
+    const id = maxId + 1;
+    const createdAt = new Date().toISOString();
+
+    const idadeCalculada = this.calculateAge(newChildData.nascimento);
+
+    const childDetail: ChildDetailData = {
+      id,
+      nome: newChildData.nome,
+      nascimento: newChildData.nascimento,
+      idade: idadeCalculada,
+      genero: newChildData.genero,
+      statusGeral: 'Próxima vacinação',
+      progresso: 0,
+      contadores: {
+        aplicadas: 0,
+        pendentes: 11,
+        atrasadas: 0,
+        total: 11
+      },
+      vacinas: [],
+      photoUrl: newChildData.photoUrl,
+      createdAt,
+    };
+
+    const childList: Child = {
+      id: id.toString(),
+      name: newChildData.nome,
+      age: idadeCalculada,
+      status: 'Próxima vacinação',
+      progress: 0,
+      applied: 0,
+      pending: 11,
+      overdue: 0,
+      photoUrl: newChildData.photoUrl,
+      createdAt,
+    };
+
+    this.childrenSubject.next([...this.childrenSubject.value, childList]);
+    this.childDetailsSubject.next([...this.childDetailsSubject.value, childDetail]);
+
+    return childDetail;
+  }
+
   addExtraVaccine(childId: number, newVaccine: Omit<Vaccine, 'status'>): boolean {
     const details = this.childDetailsSubject.value;
     const childIndex = details.findIndex(c => c.id === childId);
@@ -129,10 +140,10 @@ export class ChildService {
     const atrasadas = child.vacinas.filter(v => v.status === 'Atrasada').length;
     const pendentes = child.vacinas.length - aplicadas - atrasadas;
 
-    child.contadores = { 
-      ...child.contadores, 
-      pendentes, 
-      total: child.vacinas.length 
+    child.contadores = {
+      ...child.contadores,
+      pendentes,
+      total: child.vacinas.length
     };
     child.progresso = Math.round((aplicadas / child.contadores.total) * 100);
 
@@ -142,6 +153,16 @@ export class ChildService {
 
     this.syncMainList(child);
     return true;
+  }
+
+  private calculateAge(birthDate: string): string {
+    if (!birthDate) return 'Nova criança';
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age--;
+    return age === 0 ? 'Recém-nascido' : `${age} anos`;
   }
 
   private syncMainList(childDetail: ChildDetailData) {
@@ -162,28 +183,25 @@ export class ChildService {
   }
 
   updateChild(id: number, updatedData: any): boolean {
-    // Atualiza ChildDetailData
     const details = this.childDetailsSubject.value;
     const detailIndex = details.findIndex(c => c.id === id);
     if (detailIndex === -1) return false;
 
-    const updatedDetail: ChildDetailData = { 
+    const updatedDetail: ChildDetailData = {
       ...details[detailIndex],
       nome: updatedData.nome,
       nascimento: updatedData.nascimento,
       genero: updatedData.genero,
       idade: this.calculateAge(updatedData.nascimento),
       photoUrl: updatedData.photoUrl,
-      updatedAt: new Date().toISOString()   // ← Data de edição
+      updatedAt: new Date().toISOString()
     };
 
     const newDetails = [...details];
     newDetails[detailIndex] = updatedDetail;
     this.childDetailsSubject.next(newDetails);
 
-    // Atualiza lista principal
     this.syncMainList(updatedDetail);
-
     return true;
   }
 }
